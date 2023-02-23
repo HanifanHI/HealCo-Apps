@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:healco/data/models/edit_profile_model.dart';
+import 'package:healco/data/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/delete_history_model.dart';
@@ -141,7 +143,7 @@ class ApiService {
   }
 
   // NOTE : HISTORY
-  Future<DeleteHistoryModel> deleteHistory(String id, String token) async {
+  Future<DeleteHistoryModel> deleteHistory(int id, String token) async {
     try {
       final response = await http.delete(
         Uri.parse('$_baseUrl/history/$id'),
@@ -175,6 +177,30 @@ class ApiService {
 
       if (response.statusCode == 200) {
         return TanggapanModel.fromJson(json.decode(response.body));
+      } else {
+        throw 'Failed to load data';
+      }
+    } on SocketException {
+      throw 'No internet connection';
+    } on HttpException {
+      throw 'Couldn\'t find the post';
+    } on FormatException {
+      throw 'Bad response format';
+    } catch (e) {
+      throw '$e';
+    }
+  }
+
+  // NOTE : USER
+  Future<UserModel> user(String email, String token) async {
+    try {
+      final response =
+          await http.get(Uri.parse('$_baseUrl/editprofile/$email'), headers: {
+        "Authorization": "Bearer $token",
+      });
+
+      if (response.statusCode == 200) {
+        return UserModel.fromJson(json.decode(response.body));
       } else {
         throw 'Failed to load data';
       }

@@ -8,8 +8,14 @@ import 'package:healco/config/text_styles.dart';
 import 'package:healco/data/api/api_service.dart';
 import 'package:healco/pages/main_page.dart';
 import 'package:healco/provider/auth_provider.dart';
+import 'package:healco/provider/delete_provider.dart';
+import 'package:healco/provider/detail_provider.dart';
+import 'package:healco/provider/history_provider.dart';
 import 'package:healco/provider/page_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../utils/result_state.dart';
+import 'detail_page.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -36,11 +42,14 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
         ),
       ),
-      body: Consumer<AuthProvider>(
-        builder: (context, authValue, child) => FutureBuilder(
-          future: authValue.history(),
+      body: Consumer<HistoryProvider>(builder: (context, historyProv, _) {
+        return FutureBuilder(
+          future: historyProv.getHistory(),
           builder: (context, snapshot) {
+            print(snapshot.error);
+            print(snapshot.connectionState);
             if (snapshot.connectionState == ConnectionState.waiting) {
+              print('Loading Dieksekusi');
               return const Center(
                 child: CircularProgressIndicator(
                   color: cOrangeColor,
@@ -48,36 +57,55 @@ class _HistoryPageState extends State<HistoryPage> {
               );
             } else if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
+                print('HasData dieksekusi');
                 return ListView.builder(
-                  reverse: true,
                   shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
+                  itemCount: historyProv.historyModel.data.length,
                   itemBuilder: (context, index) {
-                    final history = snapshot.data![index];
+                    final history = historyProv.historyModel.data[index];
                     print(history.image);
                     return Container(
                       margin: EdgeInsets.only(
                         left: 20,
                         right: 20,
-                        top: index == snapshot.data!.length - 1 ? 20 : 0,
-                        bottom: index == 0 ? 20 + 60 : 20,
+                        top: 20,
+                        bottom:
+                            index == historyProv.historyModel.data.length - 1
+                                ? 20 + 60
+                                : 0,
                       ),
                       width: double.infinity,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 100,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: cGrayColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                'https://healco.hanifanhi.com/uploads/predict/${history.image}',
-                                fit: BoxFit.cover,
+                          Consumer<DetailProvider>(
+                            builder: (context, detailProv, _) =>
+                                GestureDetector(
+                              onTap: () async {
+                                await detailProv
+                                    .getDetail(history.name)
+                                    .then((value) {
+                                  Navigator.pushNamed(
+                                    context,
+                                    DetailPage.routeName,
+                                    arguments: detailProv.detailModel,
+                                  );
+                                });
+                              },
+                              child: Container(
+                                width: 100,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: cGrayColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    'https://healco.hanifanhi.com/uploads/predict/${history.image}',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -156,18 +184,20 @@ class _HistoryPageState extends State<HistoryPage> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: Consumer<AuthProvider>(
+                                            child:
+                                                Consumer<DeleteHistoryProvider>(
                                               builder:
-                                                  (context, authValue, child) =>
+                                                  (context, deleteHis, _) =>
                                                       Consumer<PageProvider>(
                                                 builder:
                                                     (context, pageValue, _) =>
                                                         GestureDetector(
-                                                  onTap: () {
-                                                    authValue.deleteHistory(
-                                                        history.id);
-                                                    authValue
-                                                        .history()
+                                                  onTap: () async {
+                                                    await deleteHis
+                                                        .deleteHistory(
+                                                            history.id);
+                                                    historyProv
+                                                        .getHistory()
                                                         .then((value) {
                                                       Navigator
                                                           .pushNamedAndRemoveUntil(
@@ -294,8 +324,8 @@ class _HistoryPageState extends State<HistoryPage> {
               );
             }
           },
-        ),
-      ),
+        );
+      }),
     );
   }
 }

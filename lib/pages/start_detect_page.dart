@@ -9,6 +9,9 @@ import 'package:healco/config/text_styles.dart';
 import 'package:healco/data/models/detail_model.dart';
 import 'package:healco/data/models/predict_result_model.dart';
 import 'package:healco/provider/auth_provider.dart';
+import 'package:healco/provider/detail_provider.dart';
+import 'package:healco/provider/predict_provider.dart';
+import 'package:healco/utils/result_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -35,8 +38,6 @@ class StartDetectPageState extends State<StartDetectPage> {
   PredictResultModel? dataPredict;
   DetailModel? dataDetail;
 
-  // ApiService service = ApiService();
-
   String? token;
 
   @override
@@ -61,135 +62,149 @@ class StartDetectPageState extends State<StartDetectPage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'DIAGNOSIS',
-                style: blackTextstyle.copyWith(
-                  fontSize: 24,
-                  fontWeight: semiBold,
-                  letterSpacing: 1,
+        body: Consumer<PredictProvider>(
+          builder: (context, predictProv, _) => SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      color: cGrayColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.file(
-                        File(data.path),
-                        fit: BoxFit.cover,
+                Text(
+                  'DIAGNOSIS',
+                  style: blackTextstyle.copyWith(
+                    fontSize: 24,
+                    fontWeight: semiBold,
+                    letterSpacing: 1,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        color: cGrayColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.file(
+                          File(data.path),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      color: dataPredict != null
-                          ? Colors.black.withOpacity(0.5)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: dataPredict != null
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'AKURASI :',
-                                style: whiteTextstyle.copyWith(
-                                  fontSize: 20,
-                                  fontWeight: medium,
-                                  letterSpacing: 1,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                ' ${dataPredict!.probability} %',
-                                style: whiteTextstyle.copyWith(
-                                  fontSize: 32,
-                                  fontWeight: bold,
-                                  letterSpacing: 1,
-                                ),
-                              ),
-                            ],
-                          )
-                        : const SizedBox(),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              dataPredict != null
-                  ? Text(
-                      dataPredict!.diagnosis!
-                          .replaceAll('_', ' ')
-                          .toUpperCase(),
-                      style: blackTextstyle.copyWith(
-                        fontSize: 24,
-                        fontWeight: bold,
-                        letterSpacing: 1,
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        color: dataPredict != null
+                            ? Colors.black.withOpacity(0.5)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    )
-                  : const SizedBox(),
-              dataPredict != null
-                  ? Consumer<AuthProvider>(
-                      builder: (context, authValue, _) => GestureDetector(
-                        onTap: () {
-                          authValue
-                              .detailPredict(dataPredict!.diagnosis!)
-                              .then((value) {
-                            setState(() {
-                              dataDetail = value;
+                      child: dataPredict != null
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'AKURASI :',
+                                  style: whiteTextstyle.copyWith(
+                                    fontSize: 20,
+                                    fontWeight: medium,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  ' ${dataPredict!.probability} %',
+                                  style: whiteTextstyle.copyWith(
+                                    fontSize: 32,
+                                    fontWeight: bold,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const SizedBox(),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                dataPredict != null
+                    ? Text(
+                        dataPredict!.diagnosis
+                            .replaceAll('_', ' ')
+                            .toUpperCase(),
+                        style: blackTextstyle.copyWith(
+                          fontSize: 24,
+                          fontWeight: bold,
+                          letterSpacing: 1,
+                        ),
+                      )
+                    : const SizedBox(),
+                dataPredict != null
+                    ? Consumer<DetailProvider>(
+                        builder: (context, detailProv, _) => GestureDetector(
+                          onTap: () {
+                            detailProv
+                                .getDetail(dataPredict!.diagnosis)
+                                .then((value) {
+                              if (detailProv.resultState ==
+                                  ResultState.hasData) {
+                                Navigator.pushNamed(
+                                  context,
+                                  DetailPage.routeName,
+                                  arguments: detailProv.detailModel,
+                                );
+                              } else {
+                                const SizedBox();
+                              }
                             });
-                            Navigator.pushNamed(
-                              context,
-                              DetailPage.routeName,
-                              arguments: value,
-                            );
-                          });
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(20),
-                          width: double.infinity,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: cOrangeColor,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Lihat Detail',
-                              style: whiteTextstyle.copyWith(
-                                fontSize: 18,
-                                fontWeight: semiBold,
-                                letterSpacing: 1,
+                            // authValue
+                            //     .detailPredict(dataPredict!.diagnosis)
+                            //     .then((value) {
+                            //   setState(() {
+                            //     dataDetail = value;
+                            //   });
+                            // Navigator.pushNamed(
+                            //   context,
+                            //   DetailPage.routeName,
+                            //   arguments: dataPredict!.diagnosis,
+                            // );
+                            // });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(20),
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: cOrangeColor,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Lihat Detail',
+                                style: whiteTextstyle.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: semiBold,
+                                  letterSpacing: 1,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  : Consumer<AuthProvider>(
-                      builder: (context, authValue, _) => GestureDetector(
+                      )
+                    : GestureDetector(
                         onTap: () async {
                           await imageToBase64(data).then((value) {
                             setState(() {
@@ -197,11 +212,85 @@ class StartDetectPageState extends State<StartDetectPage> {
                             });
                           });
 
-                          authValue.predict(basegambar!).then((value) {
-                            setState(() {
-                              dataPredict = value;
-                            });
+                          predictProv.postPredict(basegambar!).then((value) {
+                            if (predictProv.resultState ==
+                                ResultState.hasData) {
+                              dataPredict = predictProv.predictModel;
+                            } else {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) {
+                                  return SimpleDialog(
+                                    elevation: 2,
+                                    title: Center(
+                                      child: Image.asset(
+                                        'assets/images/img_dizzy_face.png',
+                                        width: 70,
+                                      ),
+                                    ),
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          'Prediksi Gagal',
+                                          style: redTextstyle.copyWith(
+                                            fontSize: 18,
+                                            fontWeight: semiBold,
+                                            letterSpacing: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          'Coba Ulangi Lagi!',
+                                          style: grayTextstyle.copyWith(
+                                            fontSize: 14,
+                                            fontWeight: medium,
+                                            letterSpacing: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              color: cOrangeColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Text(
+                                            'Kembali',
+                                            style: whiteTextstyle.copyWith(
+                                              fontSize: 14,
+                                              fontWeight: semiBold,
+                                              letterSpacing: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           });
+
+                          // authValue.predict(basegambar!).then((value) {
+                          //   setState(() {
+                          //     dataPredict = value;
+                          //   });
+                          // });
                         },
                         child: Container(
                           margin: const EdgeInsets.all(20),
@@ -212,19 +301,24 @@ class StartDetectPageState extends State<StartDetectPage> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: Center(
-                            child: Text(
-                              'Mulai Deteksi',
-                              style: whiteTextstyle.copyWith(
-                                fontSize: 18,
-                                fontWeight: semiBold,
-                                letterSpacing: 1,
-                              ),
-                            ),
+                            child:
+                                predictProv.resultState == ResultState.loading
+                                    ? const CircularProgressIndicator(
+                                        color: cWhiteColor,
+                                      )
+                                    : Text(
+                                        'Mulai Deteksi',
+                                        style: whiteTextstyle.copyWith(
+                                          fontSize: 18,
+                                          fontWeight: semiBold,
+                                          letterSpacing: 1,
+                                        ),
+                                      ),
                           ),
                         ),
                       ),
-                    ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

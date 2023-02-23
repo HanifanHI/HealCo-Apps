@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:healco/pages/main_page.dart';
 import 'package:healco/provider/auth_provider.dart';
 import 'package:healco/provider/page_provider.dart';
+import 'package:healco/provider/tanggapan_provider.dart';
+import 'package:healco/utils/result_state.dart';
 import 'package:provider/provider.dart';
 
 import '../config/colors.dart';
@@ -121,14 +123,14 @@ class _TanggapanPageState extends State<TanggapanPage> {
               ),
             ),
             const SizedBox(height: 40),
-            Consumer<AuthProvider>(
-              builder: (context, authValue, _) => GestureDetector(
+            Consumer<TanggapanProvider>(
+              builder: (context, tanggapanProv, _) => GestureDetector(
                 onTap: () {
                   final FormState? form = keyTanggapan.currentState;
 
                   if (form!.validate()) {
-                    authValue
-                        .tanggapan(_tanggapanController.text)
+                    tanggapanProv
+                        .postTanggapan(_tanggapanController.text)
                         .then((value) {
                       showDialog(
                         barrierDismissible: false,
@@ -214,14 +216,18 @@ class _TanggapanPageState extends State<TanggapanPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
-                    child: Text(
-                      'Kirim',
-                      style: whiteTextstyle.copyWith(
-                        fontSize: 18,
-                        fontWeight: semiBold,
-                        letterSpacing: 1,
-                      ),
-                    ),
+                    child: tanggapanProv.resultState == ResultState.loading
+                        ? const CircularProgressIndicator(
+                            color: cWhiteColor,
+                          )
+                        : Text(
+                            'Kirim',
+                            style: whiteTextstyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: semiBold,
+                              letterSpacing: 1,
+                            ),
+                          ),
                   ),
                 ),
               ),

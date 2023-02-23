@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:healco/data/models/user_model.dart';
 
 import '../config/colors.dart';
 import '../config/font_weight.dart';
@@ -18,6 +19,8 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
+    final data = ModalRoute.of(context)!.settings.arguments as UserModel;
+
     return Scaffold(
       backgroundColor: cWhiteColor,
       appBar: AppBar(
@@ -51,10 +54,11 @@ class _EditProfileState extends State<EditProfile> {
               margin: const EdgeInsets.symmetric(vertical: 20),
               width: 150,
               height: 150,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage('assets/images/img_profile.png'),
+                  image: NetworkImage(
+                      'https://healco.hanifanhi.com/uploads/profile/${data.profile}'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -78,7 +82,7 @@ class _EditProfileState extends State<EditProfile> {
                     autocorrect: false,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      hintText: 'Hanifan',
+                      hintText: data.name,
                       hintStyle: grayTextstyle.copyWith(
                         fontSize: 16,
                         fontWeight: regular,
@@ -133,7 +137,7 @@ class _EditProfileState extends State<EditProfile> {
                     autocorrect: false,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      hintText: '082325288088',
+                      hintText: data.noHp,
                       hintStyle: grayTextstyle.copyWith(
                         fontSize: 16,
                         fontWeight: regular,

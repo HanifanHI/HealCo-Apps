@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healco/data/api/api_service.dart';
+import 'package:healco/provider/delete_provider.dart';
+import 'package:healco/provider/detail_provider.dart';
+import 'package:healco/provider/history_provider.dart';
+import 'package:healco/provider/login_provider.dart';
+import 'package:healco/provider/predict_provider.dart';
 import 'package:healco/provider/register_provider.dart';
+import 'package:healco/provider/tanggapan_provider.dart';
+import 'package:healco/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/page_provider.dart';
@@ -52,7 +59,42 @@ class _MyAppState extends State<MyApp> {
             create: (context) => RegisterProvider(
               apiService: ApiService(),
             ),
-          )
+          ),
+          ChangeNotifierProvider<LoginProvider>(
+            create: (context) => LoginProvider(
+              apiService: ApiService(),
+            ),
+          ),
+          ChangeNotifierProvider<PredictProvider>(
+            create: (context) => PredictProvider(
+              apiService: ApiService(),
+            ),
+          ),
+          ChangeNotifierProvider<DetailProvider>(
+            create: (context) => DetailProvider(
+              apiService: ApiService(),
+            ),
+          ),
+          ChangeNotifierProvider<HistoryProvider>(
+            create: (context) => HistoryProvider(
+              apiService: ApiService(),
+            ),
+          ),
+          ChangeNotifierProvider<DeleteHistoryProvider>(
+            create: (context) => DeleteHistoryProvider(
+              apiService: ApiService(),
+            ),
+          ),
+          ChangeNotifierProvider<UserProvider>(
+            create: (context) => UserProvider(
+              apiService: ApiService(),
+            ),
+          ),
+          ChangeNotifierProvider<TanggapanProvider>(
+            create: (context) => TanggapanProvider(
+              apiService: ApiService(),
+            ),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

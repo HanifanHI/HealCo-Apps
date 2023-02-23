@@ -286,7 +286,7 @@ class HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Penyakit yang umum dijumpai pada tanaman jagung',
+                'Penyakit yang umum dijumpai pada daun jagung',
                 style: grayTextstyle.copyWith(
                   fontSize: 14,
                   fontWeight: regular,
@@ -374,7 +374,7 @@ class HomePageState extends State<HomePage> {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'Bintik Daun',
+                            'Bercak Daun',
                             style: blackTextstyle.copyWith(
                               fontSize: 12,
                               fontWeight: medium,

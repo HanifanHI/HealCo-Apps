@@ -10,11 +10,16 @@ class RegisterProvider extends ChangeNotifier {
   RegisterProvider({required this.apiService});
 
   late RegisterModel _registerModel;
-  late ResultState _resultState;
+  ResultState _resultState = ResultState.noData;
   String _message = '';
 
   RegisterModel get registerModel => _registerModel;
   ResultState get resultState => _resultState;
+  setResultState(ResultState state) {
+    _resultState = state;
+    notifyListeners();
+  }
+
   String get message => _message;
 
   Future postRegister(

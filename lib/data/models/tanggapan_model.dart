@@ -1,22 +1,14 @@
-import 'dart:convert';
-
-TanggapanModel tanggapanModelFromJson(String str) =>
-    TanggapanModel.fromJson(json.decode(str));
-
-String tanggapanModelToJson(TanggapanModel data) => json.encode(data.toJson());
-
 class TanggapanModel {
   TanggapanModel({
+    required this.error,
     required this.message,
   });
 
+  final String error;
   final String message;
 
   factory TanggapanModel.fromJson(Map<String, dynamic> json) => TanggapanModel(
+        error: json["error"],
         message: json["message"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "message": message,
-      };
 }
