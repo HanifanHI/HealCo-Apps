@@ -1,13 +1,3 @@
-// To parse this JSON data, do
-//
-//     final userModel = userModelFromJson(jsonString);
-
-import 'dart:convert';
-
-UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
-
-String userModelToJson(UserModel data) => json.encode(data.toJson());
-
 class UserModel {
   UserModel({
     required this.email,
@@ -33,13 +23,4 @@ class UserModel {
         noHp: json["no_hp"],
         profile: json["profile"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "email": email,
-        "error": error,
-        "id": id,
-        "name": name,
-        "no_hp": noHp,
-        "profile": profile,
-      };
 }

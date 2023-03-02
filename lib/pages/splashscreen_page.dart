@@ -1,14 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-// import 'package:healco/cubit/page_cubit.dart';
-import 'package:healco/data/api/api_service.dart';
-import 'package:healco/pages/main_page.dart';
-import 'package:healco/provider/auth_provider.dart';
-import 'package:provider/provider.dart';
-
+import '../provider/auth_provider.dart';
+import '../pages/main_page.dart';
 import '../pages/onboarding_page.dart';
 import '../config/colors.dart';
 import '../config/font_weight.dart';

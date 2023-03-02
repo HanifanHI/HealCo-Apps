@@ -1,5 +1,6 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,16 +15,23 @@ class AuthProvider extends ChangeNotifier {
       return false;
     }
 
-    final myData = sharedPref.getString(tokenPref);
+    final token = sharedPref.getString(tokenPref);
 
-    final jwt = JWT.decode(myData!);
-    final time = jwt.payload['exp'];
+    print(token);
 
-    DateTime expDateTime = DateTime.fromMillisecondsSinceEpoch(time * 1000);
+    final jwt = JWT.decode(token!);
+    var datatime = jwt.payload['sub'];
 
-    print(expDateTime);
+    print(jwt);
 
-    if (expDateTime.isBefore(DateTime.now())) {
+    final inputFormat = DateFormat('EEE, dd MMM yyyy HH:mm:ss \'GMT\'');
+    final inputDate = inputFormat.parse(datatime['exp']);
+
+    // final Duration difference = inputDate.difference(DateTime.now());
+    // print(difference.inDays);
+
+    // NOTE : JIKA EXP MAKA HARUS LOGIN KEMBALI
+    if (inputDate.isBefore(DateTime.now())) {
       return false;
     }
     return true;

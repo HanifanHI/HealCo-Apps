@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:healco/config/colors.dart';
 import 'package:healco/config/font_weight.dart';
 import 'package:healco/config/text_styles.dart';
-import 'package:healco/pages/forum_page.dart';
 import 'package:healco/pages/profile_page.dart';
 import 'package:healco/provider/page_provider.dart';
 import 'package:healco/provider/user_provider.dart';
@@ -23,8 +22,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  // PageProvider pageProvider = PageProvider();
-
   Widget buildContent(int currentIndex) {
     switch (currentIndex) {
       case 0:
@@ -64,7 +61,6 @@ class _MainPageState extends State<MainPage> {
               // NOTE : BERANDA
               GestureDetector(
                 onTap: () {
-                  // context.read<PageCubit>().setPage(0);
                   value.setPage(0);
                 },
                 child: Column(
@@ -131,7 +127,6 @@ class _MainPageState extends State<MainPage> {
               // NOTE : RIWAYAT
               GestureDetector(
                 onTap: () {
-                  // context.read<PageCubit>().setPage(1);
                   value.setPage(1);
                 },
                 child: Column(
@@ -163,40 +158,36 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               // NOTE : PROFIL
-              Consumer<UserProvider>(
-                builder: (context, userProv, _) => GestureDetector(
-                  onTap: () async {
-                    // context.read<PageCubit>().setPage(2);
-                    await userProv.getUser();
-                    value.setPage(2);
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        value.page == 2
-                            ? 'assets/icons/ic_profil_fill.png'
-                            : 'assets/icons/ic_profil.png',
-                        width: 24,
-                        height: 24,
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Profil',
-                        style: value.page == 2
-                            ? orangeTextstyle.copyWith(
-                                fontSize: 12,
-                                fontWeight: regular,
-                                letterSpacing: 1,
-                              )
-                            : blackTextstyle.copyWith(
-                                fontSize: 12,
-                                fontWeight: regular,
-                                letterSpacing: 1,
-                              ),
-                      ),
-                    ],
-                  ),
+              GestureDetector(
+                onTap: () async {
+                  value.setPage(2);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      value.page == 2
+                          ? 'assets/icons/ic_profil_fill.png'
+                          : 'assets/icons/ic_profil.png',
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'Profil',
+                      style: value.page == 2
+                          ? orangeTextstyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: regular,
+                              letterSpacing: 1,
+                            )
+                          : blackTextstyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: regular,
+                              letterSpacing: 1,
+                            ),
+                    ),
+                  ],
                 ),
               ),
             ],

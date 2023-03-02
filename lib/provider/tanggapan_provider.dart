@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:healco/data/api/api_service.dart';
 import 'package:healco/data/models/detail_model.dart';
 import 'package:healco/data/models/login_model.dart';
-import 'package:healco/data/models/predict_result_model.dart';
+import 'package:healco/data/models/predict_model.dart';
 import 'package:healco/data/models/tanggapan_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

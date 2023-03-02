@@ -1,17 +1,16 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:healco/config/colors.dart';
 import 'package:healco/config/font_weight.dart';
 import 'package:healco/config/text_styles.dart';
-import 'package:healco/data/api/api_service.dart';
-import 'package:healco/pages/login_page.dart';
-import 'package:healco/pages/main_page.dart';
+import 'package:healco/pages/cara_penggunaan_page.dart';
 import 'package:healco/pages/start_detect_page.dart';
+import 'package:healco/provider/page_provider.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+
+import '../widgets/items/item_banner.dart';
+import '../widgets/items/item_penyakit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,52 +43,83 @@ class HomePageState extends State<HomePage> {
 
   final CarouselController _controller = CarouselController();
 
-  @override
-  Widget build(BuildContext context) {
-    // ApiService apiService = ApiService();
-    return Scaffold(
-      backgroundColor: cWhiteColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: AppBar(
-          backgroundColor: cOrangeColor,
-          flexibleSpace: Align(
+  PreferredSizeWidget _appbar() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(60),
+      child: AppBar(
+        backgroundColor: cOrangeColor,
+        flexibleSpace: Transform.translate(
+          offset: const Offset(-30, 7),
+          child: Align(
             alignment: Alignment.bottomRight,
             child: Image.asset(
               'assets/images/img_header_wave.png',
               width: 250,
             ),
           ),
-          title: Text(
-            'HealCo',
-            style: whiteTextstyle.copyWith(
-              fontSize: 28,
-              fontWeight: bold,
-              letterSpacing: 2,
+        ),
+        title: Text(
+          'HealCo',
+          style: whiteTextstyle.copyWith(
+            fontSize: 28,
+            fontWeight: bold,
+            letterSpacing: 2,
+          ),
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                CaraPenggunaan.routeName,
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Image.asset(
+                'assets/icons/ic_mark_question.png',
+                width: 30,
+              ),
             ),
           ),
-          // actions: [
-          //   GestureDetector(
-          //     onTap: () async {
-          //       Navigator.pushNamedAndRemoveUntil(
-          //         context,
-          //         LoginPage.routeName,
-          //         (route) => false,
-          //       );
-          //       apiService.token = null;
-          //       final pref = await SharedPreferences.getInstance();
-          //       pref.clear();
-          //       setState(() {});
-          //       print('Token Dihapus');
-          //     },
-          //     child: Image.asset(
-          //       'assets/icons/ic_logout.png',
-          //       width: 24,
-          //     ),
-          //   ),
-          // ],
+        ],
+      ),
+    );
+  }
+
+  Widget _banner() {
+    return SizedBox(
+      width: double.infinity,
+      height: 200,
+      child: CarouselSlider(
+        carouselController: _controller,
+        items: const [
+          ItemBanner(
+            image: 'assets/images/img_petani.png',
+          ),
+          ItemBanner(
+            image: 'assets/images/img_petani.png',
+          ),
+          ItemBanner(
+            image: 'assets/images/img_petani.png',
+          ),
+        ],
+        options: CarouselOptions(
+          height: double.infinity,
+          aspectRatio: 2,
+          enlargeCenterPage: true,
+          enableInfiniteScroll: false,
+          initialPage: 1,
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: cWhiteColor,
+      appBar: _appbar(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,60 +127,22 @@ class HomePageState extends State<HomePage> {
             const SizedBox(
               height: 20,
             ),
-            SizedBox(
-              width: double.infinity,
-              height: 200,
-              child: CarouselSlider(
-                carouselController: _controller,
-                items: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/img_petani.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/img_petani.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/img_petani.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ],
-                options: CarouselOptions(
-                  height: double.infinity,
-                  aspectRatio: 2,
-                  enlargeCenterPage: true,
-                  enableInfiniteScroll: false,
-                  initialPage: 1,
-                ),
-              ),
-            ),
+            _banner(),
             const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Identifikasi',
-                style: blackTextstyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: bold,
-                  letterSpacing: 1,
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    'Identifikasi',
+                    style: blackTextstyle.copyWith(
+                      fontSize: 20,
+                      fontWeight: bold,
+                      letterSpacing: 1,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
             const SizedBox(height: 5),
             Padding(
@@ -164,9 +156,7 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -176,8 +166,8 @@ class HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(10),
                 color: cWhiteColor,
                 border: Border.all(
-                  color: cOrangeColor,
-                  width: 2,
+                  color: cGrayColor,
+                  width: 1,
                 ),
               ),
               child: Row(
@@ -189,17 +179,21 @@ class HomePageState extends State<HomePage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          getImageWithCamera().then((value) {
-                            if (value == null) {
-                              Navigator.pushNamed(context, MainPage.routeName);
-                            } else {
-                              Navigator.pushNamed(
-                                context,
-                                StartDetectPage.routeName,
-                                arguments: value,
-                              );
-                            }
-                          });
+                          getImageWithCamera().then(
+                            (value) {
+                              if (value == null) {
+                                Provider.of<PageProvider>(context,
+                                        listen: false)
+                                    .setPage(0);
+                              } else {
+                                Navigator.pushNamed(
+                                  context,
+                                  StartDetectPage.routeName,
+                                  arguments: value,
+                                );
+                              }
+                            },
+                          );
                         },
                         child: Container(
                           width: 80,
@@ -214,7 +208,7 @@ class HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 7),
                       Text(
                         'Kamera',
                         style: blackTextstyle.copyWith(
@@ -231,17 +225,21 @@ class HomePageState extends State<HomePage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          getImageWithGallery().then((value) {
-                            if (value == null) {
-                              Navigator.pop(context);
-                            } else {
-                              Navigator.pushNamed(
-                                context,
-                                StartDetectPage.routeName,
-                                arguments: value,
-                              );
-                            }
-                          });
+                          getImageWithGallery().then(
+                            (value) {
+                              if (value == null) {
+                                Provider.of<PageProvider>(context,
+                                        listen: false)
+                                    .setPage(0);
+                              } else {
+                                Navigator.pushNamed(
+                                  context,
+                                  StartDetectPage.routeName,
+                                  arguments: value,
+                                );
+                              }
+                            },
+                          );
                         },
                         child: Container(
                           width: 80,
@@ -256,7 +254,7 @@ class HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 7),
                       Text(
                         'Galeri',
                         style: blackTextstyle.copyWith(
@@ -294,99 +292,21 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: SingleChildScrollView(
-                child: Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/img_hawar.png'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            'Hawar Daun',
-                            style: blackTextstyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: medium,
-                              letterSpacing: 1,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/img_karat.png'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            'Karat Daun',
-                            style: blackTextstyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: medium,
-                              letterSpacing: 1,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/img_bintik.png'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            'Bercak Daun',
-                            style: blackTextstyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: medium,
-                              letterSpacing: 1,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            const SizedBox(height: 5),
+            const ItemPenyakit(
+              image: 'assets/images/img_hawar_daun.png',
+              title: 'Hawar Daun',
+              subTitle: 'Setosphaeria turcica',
+            ),
+            const ItemPenyakit(
+              image: 'assets/images/img_bercak_daun.png',
+              title: 'Bercak Daun',
+              subTitle: 'Bipolaris zeicola',
+            ),
+            const ItemPenyakit(
+              image: 'assets/images/img_karat_daun.png',
+              title: 'Karat Daun',
+              subTitle: 'Puccinia sorghi',
             ),
             const SizedBox(
               height: 90,

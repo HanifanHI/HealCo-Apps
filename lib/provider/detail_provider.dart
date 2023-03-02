@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healco/data/api/api_service.dart';
 import 'package:healco/data/models/detail_model.dart';
-import 'package:healco/data/models/login_model.dart';
-import 'package:healco/data/models/predict_result_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/result_state.dart';
@@ -30,25 +28,23 @@ class DetailProvider extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       String token = prefs.getString(tokenPref) ?? '';
 
-      print('Token : $token');
+      final detail = await apiService.detail(nama, token);
 
-      final data = await apiService.detail(nama, token);
+      print(detail);
 
-      print(data);
-
-      if (data.error == 'false') {
+      if (detail.status == '200') {
         _resultState = ResultState.hasData;
         notifyListeners();
-        return _detailModel = data;
+        return _detailModel = detail;
       } else {
         _resultState = ResultState.noData;
         notifyListeners();
-        return _message = 'Empty Data';
+        return _message = 'Data detail tidak ditemukan';
       }
     } catch (e) {
       _resultState = ResultState.hasError;
       notifyListeners();
-      return _message = 'Error $e';
+      return _message = '$e';
     }
   }
 }

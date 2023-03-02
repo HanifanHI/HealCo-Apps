@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:healco/provider/detail_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 
@@ -33,7 +30,6 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     var data = ModalRoute.of(context)!.settings.arguments as DetailModel;
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: cWhiteColor,
@@ -42,11 +38,11 @@ class _DetailPageState extends State<DetailPage> {
           backgroundColor: cWhiteColor,
           leading: Center(
             child: Consumer<PageProvider>(
-              builder: (context, value, _) => GestureDetector(
+              builder: (context, pageProv, _) => GestureDetector(
                 onTap: () {
                   Navigator.pushNamedAndRemoveUntil(
                       context, MainPage.routeName, (route) => false);
-                  value.page == 0;
+                  pageProv.setPage(0);
                 },
                 child: Image.asset(
                   'assets/icons/ic_arrow_left_black.png',
@@ -76,7 +72,7 @@ class _DetailPageState extends State<DetailPage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: Image.network(
-                              'https://healco.hanifanhi.com/uploads/disease/${data.gambar[index]}',
+                              'https://hanifanhi.com/uploads/disease/${data.gambar[index]}',
                               fit: BoxFit.cover,
                             ),
                           ),

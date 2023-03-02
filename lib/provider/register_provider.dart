@@ -15,12 +15,12 @@ class RegisterProvider extends ChangeNotifier {
 
   RegisterModel get registerModel => _registerModel;
   ResultState get resultState => _resultState;
+  String get message => _message;
+
   setResultState(ResultState state) {
     _resultState = state;
     notifyListeners();
   }
-
-  String get message => _message;
 
   Future postRegister(
       String name, String email, String noHp, String password) async {
@@ -28,21 +28,21 @@ class RegisterProvider extends ChangeNotifier {
       _resultState = ResultState.loading;
       notifyListeners();
 
-      final data = await apiService.register(name, email, noHp, password);
+      final register = await apiService.register(name, email, noHp, password);
 
-      if (data.status == 400) {
-        _resultState == ResultState.noData;
-        notifyListeners();
-        return _message = 'Empty Data';
-      } else {
+      if (register.status == '200') {
         _resultState = ResultState.hasData;
         notifyListeners();
-        return _registerModel = data;
+        return _registerModel = register;
+      } else {
+        _resultState == ResultState.noData;
+        notifyListeners();
+        return _message = 'Gagal menambahkan data';
       }
     } catch (e) {
       _resultState = ResultState.hasError;
       notifyListeners();
-      return _message = 'Error $e';
+      return _message = '$e';
     }
   }
 }

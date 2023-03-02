@@ -7,7 +7,7 @@ class RegisterModel {
 
   final String error;
   final String message;
-  final int status;
+  final String status;
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
         error: json["error"],

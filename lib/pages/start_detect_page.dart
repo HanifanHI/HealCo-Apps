@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:healco/config/colors.dart';
 import 'package:healco/config/font_weight.dart';
 import 'package:healco/config/text_styles.dart';
-import 'package:healco/data/models/detail_model.dart';
-import 'package:healco/data/models/predict_result_model.dart';
-import 'package:healco/provider/auth_provider.dart';
+import 'package:healco/data/models/predict_model.dart';
 import 'package:healco/provider/detail_provider.dart';
 import 'package:healco/provider/predict_provider.dart';
 import 'package:healco/utils/result_state.dart';
+import 'package:healco/widgets/dialogs/detail_dialog.dart';
+import 'package:healco/widgets/dialogs/predict_dialog.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -27,23 +27,18 @@ class StartDetectPage extends StatefulWidget {
 }
 
 class StartDetectPageState extends State<StartDetectPage> {
-  String? basegambar;
-
   Future imageToBase64(XFile image) async {
     Uint8List imagebytes = await image.readAsBytes();
     String base64string = base64.encode(imagebytes);
     return base64string;
   }
 
-  PredictResultModel? dataPredict;
-  DetailModel? dataDetail;
-
-  String? token;
+  PredictModel? dataPredict;
 
   @override
   Widget build(BuildContext context) {
     var data = ModalRoute.of(context)!.settings.arguments as XFile;
-
+    final detailProv = Provider.of<DetailProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: cWhiteColor,
@@ -153,52 +148,72 @@ class StartDetectPageState extends State<StartDetectPage> {
                       )
                     : const SizedBox(),
                 dataPredict != null
-                    ? Consumer<DetailProvider>(
-                        builder: (context, detailProv, _) => GestureDetector(
-                          onTap: () {
-                            detailProv
-                                .getDetail(dataPredict!.diagnosis)
-                                .then((value) {
-                              if (detailProv.resultState ==
-                                  ResultState.hasData) {
-                                Navigator.pushNamed(
-                                  context,
-                                  DetailPage.routeName,
-                                  arguments: detailProv.detailModel,
-                                );
-                              } else {
-                                const SizedBox();
-                              }
-                            });
-                            // authValue
-                            //     .detailPredict(dataPredict!.diagnosis)
-                            //     .then((value) {
-                            //   setState(() {
-                            //     dataDetail = value;
-                            //   });
-                            // Navigator.pushNamed(
-                            //   context,
-                            //   DetailPage.routeName,
-                            //   arguments: dataPredict!.diagnosis,
-                            // );
-                            // });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(20),
-                            width: double.infinity,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: cOrangeColor,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Lihat Detail',
-                                style: whiteTextstyle.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: semiBold,
-                                  letterSpacing: 1,
-                                ),
+                    ? GestureDetector(
+                        onTap: () {
+                          detailProv
+                              .getDetail(dataPredict!.diagnosis)
+                              .then((value) {
+                            print('Nilai Detail $value');
+                            if (detailProv.resultState == ResultState.hasData) {
+                              Navigator.pushNamed(
+                                context,
+                                DetailPage.routeName,
+                                arguments: detailProv.detailModel,
+                              );
+                            } else {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) {
+                                  return DetailDialog(
+                                    image: 'assets/images/img_dizzy_face.png',
+                                    title: 'Detail Gagal',
+                                    subTitle: predictProv.message,
+                                  );
+                                },
+                              );
+                            }
+                          });
+                          // detailProv
+                          //     .getDetail(dataPredict!.diagnosis)
+                          //     .then((value) {
+                          //   if (detailProv.resultState ==
+                          //       ResultState.hasData) {
+                          //     Navigator.pushNamed(
+                          //       context,
+                          //       DetailPage.routeName,
+                          //       arguments: detailProv.detailModel,
+                          //     );
+                          //   } else {
+                          //     showDialog(
+                          //       barrierDismissible: false,
+                          //       context: context,
+                          //       builder: (context) {
+                          //         return DetailDialog(
+                          //           image: 'assets/images/img_dizzy_face.png',
+                          //           title: 'Detail Gagal',
+                          //           subTitle: predictProv.message,
+                          //         );
+                          //       },
+                          //     );
+                          //   }
+                          // });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(20),
+                          width: double.infinity,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: cOrangeColor,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Lihat Detail',
+                              style: whiteTextstyle.copyWith(
+                                fontSize: 18,
+                                fontWeight: semiBold,
+                                letterSpacing: 1,
                               ),
                             ),
                           ),
@@ -206,91 +221,29 @@ class StartDetectPageState extends State<StartDetectPage> {
                       )
                     : GestureDetector(
                         onTap: () async {
-                          await imageToBase64(data).then((value) {
-                            setState(() {
-                              basegambar = value;
+                          await imageToBase64(data).then((baseGambar) {
+                            predictProv.postPredict(baseGambar).then((value) {
+                              print(value);
+                              if (predictProv.resultState ==
+                                  ResultState.hasData) {
+                                setState(() {
+                                  dataPredict = predictProv.predictModel;
+                                });
+                              } else {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return PredictDialog(
+                                      image: 'assets/images/img_dizzy_face.png',
+                                      title: 'Prediksi Gagal',
+                                      subTitle: predictProv.message,
+                                    );
+                                  },
+                                );
+                              }
                             });
                           });
-
-                          predictProv.postPredict(basegambar!).then((value) {
-                            if (predictProv.resultState ==
-                                ResultState.hasData) {
-                              dataPredict = predictProv.predictModel;
-                            } else {
-                              showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) {
-                                  return SimpleDialog(
-                                    elevation: 2,
-                                    title: Center(
-                                      child: Image.asset(
-                                        'assets/images/img_dizzy_face.png',
-                                        width: 70,
-                                      ),
-                                    ),
-                                    children: [
-                                      Center(
-                                        child: Text(
-                                          'Prediksi Gagal',
-                                          style: redTextstyle.copyWith(
-                                            fontSize: 18,
-                                            fontWeight: semiBold,
-                                            letterSpacing: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          'Coba Ulangi Lagi!',
-                                          style: grayTextstyle.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: medium,
-                                            letterSpacing: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                              color: cOrangeColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Text(
-                                            'Kembali',
-                                            style: whiteTextstyle.copyWith(
-                                              fontSize: 14,
-                                              fontWeight: semiBold,
-                                              letterSpacing: 1,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }
-                          });
-
-                          // authValue.predict(basegambar!).then((value) {
-                          //   setState(() {
-                          //     dataPredict = value;
-                          //   });
-                          // });
                         },
                         child: Container(
                           margin: const EdgeInsets.all(20),

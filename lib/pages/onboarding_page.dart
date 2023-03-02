@@ -1,13 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:healco/pages/home_page.dart';
-import 'package:healco/pages/login_page.dart';
-import 'package:healco/pages/main_page.dart';
 
 import '../config/colors.dart';
 import '../config/font_weight.dart';
 import '../config/text_styles.dart';
-import 'detail_page.dart';
+import '../pages/login_page.dart';
 import '../widgets/onboarding_item.dart';
 
 class OnboardingPage extends StatefulWidget {
