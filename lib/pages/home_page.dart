@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:healco/config/colors.dart';
 import 'package:healco/config/font_weight.dart';
 import 'package:healco/config/text_styles.dart';
-import 'package:healco/pages/cara_penggunaan_page.dart';
-import 'package:healco/pages/start_detect_page.dart';
+import 'package:healco/pages/predict_page.dart';
+import 'package:healco/pages/tentang_page.dart';
 import 'package:healco/provider/page_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/items/item_banner.dart';
 import '../widgets/items/item_penyakit.dart';
+import 'kontak_page.dart';
+
+import 'package:share_plus/share_plus.dart';
+import 'package:launch_review/launch_review.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -46,43 +50,114 @@ class HomePageState extends State<HomePage> {
   PreferredSizeWidget _appbar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(60),
-      child: AppBar(
-        backgroundColor: cOrangeColor,
-        flexibleSpace: Transform.translate(
-          offset: const Offset(-30, 7),
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Image.asset(
-              'assets/images/img_header_wave.png',
-              width: 250,
-            ),
-          ),
-        ),
-        title: Text(
-          'HealCo',
-          style: whiteTextstyle.copyWith(
-            fontSize: 28,
-            fontWeight: bold,
-            letterSpacing: 2,
-          ),
-        ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                CaraPenggunaan.routeName,
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20),
+      child: ClipRect(
+        child: AppBar(
+          backgroundColor: cOrangeColor,
+          flexibleSpace: Transform.translate(
+            offset: const Offset(-30, 10),
+            child: Align(
+              alignment: Alignment.bottomRight,
               child: Image.asset(
-                'assets/icons/ic_mark_question.png',
-                width: 30,
+                'assets/images/img_header_wave.png',
+                width: 250,
               ),
             ),
           ),
-        ],
+          title: Text(
+            'HealCo',
+            style: whiteTextstyle.copyWith(
+              fontSize: 28,
+              fontWeight: bold,
+              letterSpacing: 2,
+            ),
+          ),
+          actions: [
+            PopupMenuButton(
+              icon: const Icon(
+                Icons.more_vert_rounded,
+                color: cWhiteColor,
+                size: 26,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                    value: 1,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      'Bagikan',
+                      style: blackTextstyle.copyWith(
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      'Kontak',
+                      style: blackTextstyle.copyWith(
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 3,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      'Tentang',
+                      style: blackTextstyle.copyWith(
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 4,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      'Beri Ulasan',
+                      style: blackTextstyle.copyWith(
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                ];
+              },
+              onSelected: (value) {
+                switch (value) {
+                  case 1:
+                    Share.share(
+                        'https://play.google.com/store/apps/details?id=com.instagram.android&hl=id&gl=US');
+                    break;
+                  case 2:
+                    Navigator.pushNamed(
+                      context,
+                      KontakPage.routeName,
+                    );
+                    break;
+                  case 3:
+                    Navigator.pushNamed(
+                      context,
+                      TentangPage.routeName,
+                    );
+                    break;
+                  case 4:
+                    LaunchReview.launch(
+                      androidAppId: 'com.instagram.android',
+                      writeReview: false,
+                    );
+                    break;
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -152,7 +227,7 @@ class HomePageState extends State<HomePage> {
                 style: grayTextstyle.copyWith(
                   fontSize: 14,
                   fontWeight: regular,
-                  letterSpacing: 1,
+                  letterSpacing: 0.8,
                 ),
               ),
             ),
@@ -288,7 +363,7 @@ class HomePageState extends State<HomePage> {
                 style: grayTextstyle.copyWith(
                   fontSize: 14,
                   fontWeight: regular,
-                  letterSpacing: 1,
+                  letterSpacing: 0.8,
                 ),
               ),
             ),

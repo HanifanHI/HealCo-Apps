@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healco/data/api/api_service.dart';
 import 'package:healco/data/models/detail_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/result_state.dart';
 
@@ -23,14 +22,7 @@ class DetailProvider extends ChangeNotifier {
       _resultState = ResultState.loading;
       notifyListeners();
 
-      const String tokenPref = 'TOKEN';
-
-      final prefs = await SharedPreferences.getInstance();
-      String token = prefs.getString(tokenPref) ?? '';
-
-      final detail = await apiService.detail(nama, token);
-
-      print(detail);
+      final detail = await apiService.detail(nama);
 
       if (detail.status == '200') {
         _resultState = ResultState.hasData;

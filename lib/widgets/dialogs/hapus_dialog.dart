@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:healco/provider/history_provider.dart';
+import 'package:healco/pages/main_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/colors.dart';
 import '../../config/font_weight.dart';
 import '../../config/text_styles.dart';
-import '../../pages/main_page.dart';
-import '../../provider/page_provider.dart';
+import '../../provider/predict_provider.dart';
 
 class HapusDialog extends StatelessWidget {
   final int id;
@@ -56,40 +55,34 @@ class HapusDialog extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Consumer<HistoryProvider>(
-                builder: (context, historyProv, _) => GestureDetector(
-                  onTap: () {
-                    historyProv.deleteHistory(id).then((value) {
-                      Navigator.pop(context);
-                      Provider.of<HistoryProvider>(context, listen: false)
-                          .getHistory();
-                    });
-
-                    // historyProv.getHistory().then((value) {
-                    //   Navigator.pushNamedAndRemoveUntil(
-                    //       context, MainPage.routeName, (route) => false);
-                    // });
-                    // pageValue.setPage(1);
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(left: 20, right: 15),
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: cWhiteColor,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: cRedColor,
-                        width: 2,
-                      ),
+              child: GestureDetector(
+                onTap: () {
+                  Provider.of<PredictProvider>(context, listen: false)
+                      .removeHistory(id);
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    MainPage.routeName,
+                    (route) => false,
+                  );
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(left: 20, right: 15),
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: cWhiteColor,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: cRedColor,
+                      width: 2,
                     ),
-                    child: Text(
-                      'Ya',
-                      style: redTextstyle.copyWith(
-                        fontSize: 14,
-                        fontWeight: semiBold,
-                        letterSpacing: 1,
-                      ),
+                  ),
+                  child: Text(
+                    'Ya',
+                    style: redTextstyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: semiBold,
+                      letterSpacing: 1,
                     ),
                   ),
                 ),

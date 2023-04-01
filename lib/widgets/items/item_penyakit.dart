@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../config/font_weight.dart';
 import '../../config/text_styles.dart';
@@ -46,7 +44,7 @@ class ItemPenyakit extends StatelessWidget {
                 title,
                 style: blackTextstyle.copyWith(
                   fontSize: 14,
-                  fontWeight: medium,
+                  fontWeight: semiBold,
                   letterSpacing: 1,
                 ),
               ),

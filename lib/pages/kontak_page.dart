@@ -5,16 +5,16 @@ import '../config/colors.dart';
 import '../config/font_weight.dart';
 import '../config/text_styles.dart';
 
-class BantuanPage extends StatefulWidget {
-  const BantuanPage({super.key});
+class KontakPage extends StatefulWidget {
+  const KontakPage({super.key});
 
-  static const routeName = '/bantuan';
+  static const routeName = '/kontak';
 
   @override
-  State<BantuanPage> createState() => _BantuanPageState();
+  State<KontakPage> createState() => KontakPageState();
 }
 
-class _BantuanPageState extends State<BantuanPage> {
+class KontakPageState extends State<KontakPage> {
   String whatsappUrl = "whatsapp://send?phone=+6282325288088";
 
   Future<void> _launchWhatsapp() async {
@@ -51,7 +51,7 @@ class _BantuanPageState extends State<BantuanPage> {
         ),
         titleSpacing: 0,
         title: Text(
-          'Bantuan',
+          'Kontak',
           style: blackTextstyle.copyWith(
             fontSize: 18,
             fontWeight: bold,

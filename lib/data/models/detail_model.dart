@@ -6,6 +6,7 @@ class DetailModel {
     required this.gejala,
     required this.nama,
     required this.pengobatan,
+    required this.penyebab,
     required this.status,
   });
 
@@ -15,6 +16,7 @@ class DetailModel {
   final String gejala;
   final String nama;
   final String pengobatan;
+  final String penyebab;
   final String status;
 
   factory DetailModel.fromJson(Map<String, dynamic> json) => DetailModel(
@@ -24,6 +26,7 @@ class DetailModel {
         gejala: json["gejala"],
         nama: json["nama"],
         pengobatan: json["pengobatan"],
+        penyebab: json["penyebab"],
         status: json["status"],
       );
 }

@@ -10,7 +10,6 @@ import 'package:healco/data/models/predict_model.dart';
 import 'package:healco/provider/detail_provider.dart';
 import 'package:healco/provider/predict_provider.dart';
 import 'package:healco/utils/result_state.dart';
-import 'package:healco/widgets/dialogs/detail_dialog.dart';
 import 'package:healco/widgets/dialogs/predict_dialog.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +37,6 @@ class StartDetectPageState extends State<StartDetectPage> {
   @override
   Widget build(BuildContext context) {
     var data = ModalRoute.of(context)!.settings.arguments as XFile;
-    final detailProv = Provider.of<DetailProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: cWhiteColor,
@@ -148,73 +146,40 @@ class StartDetectPageState extends State<StartDetectPage> {
                       )
                     : const SizedBox(),
                 dataPredict != null
-                    ? GestureDetector(
-                        onTap: () {
-                          detailProv
-                              .getDetail(dataPredict!.diagnosis)
-                              .then((value) {
-                            print('Nilai Detail $value');
-                            if (detailProv.resultState == ResultState.hasData) {
+                    ? Consumer<DetailProvider>(
+                        builder: (context, detailProv, _) => GestureDetector(
+                          onTap: () {
+                            detailProv
+                                .getDetail(dataPredict!.diagnosis)
+                                .then((_) {
                               Navigator.pushNamed(
                                 context,
                                 DetailPage.routeName,
-                                arguments: detailProv.detailModel,
                               );
-                            } else {
-                              showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) {
-                                  return DetailDialog(
-                                    image: 'assets/images/img_dizzy_face.png',
-                                    title: 'Detail Gagal',
-                                    subTitle: predictProv.message,
-                                  );
-                                },
-                              );
-                            }
-                          });
-                          // detailProv
-                          //     .getDetail(dataPredict!.diagnosis)
-                          //     .then((value) {
-                          //   if (detailProv.resultState ==
-                          //       ResultState.hasData) {
-                          //     Navigator.pushNamed(
-                          //       context,
-                          //       DetailPage.routeName,
-                          //       arguments: detailProv.detailModel,
-                          //     );
-                          //   } else {
-                          //     showDialog(
-                          //       barrierDismissible: false,
-                          //       context: context,
-                          //       builder: (context) {
-                          //         return DetailDialog(
-                          //           image: 'assets/images/img_dizzy_face.png',
-                          //           title: 'Detail Gagal',
-                          //           subTitle: predictProv.message,
-                          //         );
-                          //       },
-                          //     );
-                          //   }
-                          // });
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(20),
-                          width: double.infinity,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: cOrangeColor,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Lihat Detail',
-                              style: whiteTextstyle.copyWith(
-                                fontSize: 18,
-                                fontWeight: semiBold,
-                                letterSpacing: 1,
-                              ),
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(20),
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: cOrangeColor,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Center(
+                              child:
+                                  detailProv.resultState == ResultState.loading
+                                      ? const CircularProgressIndicator(
+                                          color: cWhiteColor,
+                                        )
+                                      : Text(
+                                          'Lihat Detail',
+                                          style: whiteTextstyle.copyWith(
+                                            fontSize: 18,
+                                            fontWeight: semiBold,
+                                            letterSpacing: 1,
+                                          ),
+                                        ),
                             ),
                           ),
                         ),
@@ -223,7 +188,6 @@ class StartDetectPageState extends State<StartDetectPage> {
                         onTap: () async {
                           await imageToBase64(data).then((baseGambar) {
                             predictProv.postPredict(baseGambar).then((value) {
-                              print(value);
                               if (predictProv.resultState ==
                                   ResultState.hasData) {
                                 setState(() {
@@ -251,7 +215,7 @@ class StartDetectPageState extends State<StartDetectPage> {
                           height: 50,
                           decoration: BoxDecoration(
                             color: cOrangeColor,
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(15),
                           ),
                           child: Center(
                             child:

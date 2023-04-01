@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:healco/data/api/api_service.dart';
 import 'package:healco/data/models/predict_model.dart';
@@ -7,6 +9,8 @@ import '../utils/result_state.dart';
 
 class PredictProvider extends ChangeNotifier {
   ApiService apiService;
+
+  List<Map<String, dynamic>> history = [];
 
   PredictProvider({required this.apiService});
 
@@ -28,21 +32,15 @@ class PredictProvider extends ChangeNotifier {
       _resultState = ResultState.loading;
       notifyListeners();
 
-      const String tokenPref = 'TOKEN';
+      final predict = await apiService.predict(image);
 
-      final prefs = await SharedPreferences.getInstance();
-      String token = prefs.getString(tokenPref) ?? '';
+      print('PREDICT $predict');
 
-      print(token);
-
-      final data = await apiService.predict(image, token);
-
-      print(data.status);
-      print(data.message);
-      if (data.status == '200') {
+      if (predict.status == '200') {
         _resultState = ResultState.hasData;
+        setHistory(predict);
         notifyListeners();
-        return _predictModel = data;
+        return _predictModel = predict;
       } else {
         _resultState = ResultState.noData;
         notifyListeners();
@@ -51,8 +49,53 @@ class PredictProvider extends ChangeNotifier {
     } catch (e) {
       _resultState = ResultState.hasError;
       notifyListeners();
-      print('diekseksi');
       return _message = '$e';
+    }
+  }
+
+  static const String keyHistory = 'PREDICT';
+
+  setHistory(PredictModel data) async {
+    final pref = await SharedPreferences.getInstance();
+
+    if (pref.containsKey(keyHistory)) {
+      final oldPredict = pref.getString(keyHistory);
+      List oldPredictList = json.decode(oldPredict!);
+      oldPredictList.add({
+        'nama': data.diagnosis,
+        'akurasi': data.probability,
+        'foto': data.image,
+      });
+      pref.setString(keyHistory, json.encode(oldPredictList));
+    } else {
+      history.add({
+        'nama': data.diagnosis,
+        'akurasi': data.probability,
+        'foto': data.image,
+      });
+      pref.setString(keyHistory, jsonEncode(history));
+    }
+  }
+
+  Future getHistory() async {
+    final pref = await SharedPreferences.getInstance();
+
+    String dataHistory = pref.getString(keyHistory) ?? '';
+
+    List<Map<String, dynamic>> myHistory = (dataHistory != '')
+        ? List<Map<String, dynamic>>.from(jsonDecode(dataHistory))
+        : [];
+    return myHistory;
+  }
+
+  removeHistory(int index) async {
+    final pref = await SharedPreferences.getInstance();
+
+    if (pref.containsKey(keyHistory)) {
+      final oldPredict = pref.getString(keyHistory);
+      List oldPredictList = json.decode(oldPredict!);
+      oldPredictList.removeAt(index);
+      pref.setString(keyHistory, json.encode(oldPredictList));
     }
   }
 }

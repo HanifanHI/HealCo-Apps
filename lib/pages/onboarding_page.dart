@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../config/colors.dart';
 import '../config/font_weight.dart';
 import '../config/text_styles.dart';
-import '../pages/login_page.dart';
 import '../widgets/onboarding_item.dart';
+import 'main_page.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -117,7 +117,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 if (_currentIndex == 2) {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    LoginPage.routeName,
+                    MainPage.routeName,
                     (route) => false,
                   );
                 } else {

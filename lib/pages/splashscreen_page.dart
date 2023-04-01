@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 
-import '../provider/auth_provider.dart';
 import '../pages/main_page.dart';
-import '../pages/onboarding_page.dart';
 import '../config/colors.dart';
 import '../config/font_weight.dart';
 import '../config/text_styles.dart';
@@ -22,29 +19,18 @@ class SplashScreenPage extends StatefulWidget {
 class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 5), () {
-      Navigator.pushAndRemoveUntil(context,
+    Timer(
+      const Duration(seconds: 5),
+      () {
+        Navigator.pushAndRemoveUntil(
+          context,
           MaterialPageRoute(builder: (context) {
-        return Consumer<AuthProvider>(
-            builder: (context, authValue, _) => FutureBuilder(
-                  future: authValue.autoLogin(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator(
-                        color: cOrangeColor,
-                      );
-                    } else if (snapshot.connectionState ==
-                        ConnectionState.done) {
-                      return snapshot.data
-                          ? const MainPage()
-                          : const OnboardingPage();
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ));
-      }), (route) => false);
-    });
+            return const MainPage();
+          }),
+          (route) => false,
+        );
+      },
+    );
 
     return Scaffold(
       backgroundColor: cOrangeColor,
