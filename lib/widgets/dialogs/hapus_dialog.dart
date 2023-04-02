@@ -31,7 +31,7 @@ class HapusDialog extends StatelessWidget {
             'Hapus Data',
             style: redTextstyle.copyWith(
               fontSize: 18,
-              fontWeight: semiBold,
+              fontWeight: bold,
               letterSpacing: 1,
             ),
           ),
@@ -81,7 +81,7 @@ class HapusDialog extends StatelessWidget {
                     'Ya',
                     style: redTextstyle.copyWith(
                       fontSize: 14,
-                      fontWeight: semiBold,
+                      fontWeight: bold,
                       letterSpacing: 1,
                     ),
                   ),
@@ -104,7 +104,7 @@ class HapusDialog extends StatelessWidget {
                     'Tidak',
                     style: whiteTextstyle.copyWith(
                       fontSize: 14,
-                      fontWeight: semiBold,
+                      fontWeight: bold,
                       letterSpacing: 1,
                     ),
                   ),

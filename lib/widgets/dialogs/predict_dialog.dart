@@ -32,7 +32,7 @@ class PredictDialog extends StatelessWidget {
             title,
             style: redTextstyle.copyWith(
               fontSize: 18,
-              fontWeight: semiBold,
+              fontWeight: bold,
               letterSpacing: 1,
             ),
           ),
@@ -73,7 +73,7 @@ class PredictDialog extends StatelessWidget {
               'Kembali',
               style: whiteTextstyle.copyWith(
                 fontSize: 14,
-                fontWeight: semiBold,
+                fontWeight: bold,
                 letterSpacing: 1,
               ),
             ),

@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:healco/data/api/api_service.dart';
-import 'package:healco/data/models/predict_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/api/api_service.dart';
+import '../data/models/predict_model.dart';
 import '../utils/result_state.dart';
 
 class PredictProvider extends ChangeNotifier {

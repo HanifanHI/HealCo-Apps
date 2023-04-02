@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PageProvider extends ChangeNotifier {
   late int _page = 0;
 
-  // GET & SET PAGE
+  // NOTE : GET & SET PAGE
   int get page => _page;
 
   void setPage(int newPage) {

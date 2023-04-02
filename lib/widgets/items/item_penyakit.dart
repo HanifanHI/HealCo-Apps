@@ -44,7 +44,7 @@ class ItemPenyakit extends StatelessWidget {
                 title,
                 style: blackTextstyle.copyWith(
                   fontSize: 14,
-                  fontWeight: semiBold,
+                  fontWeight: bold,
                   letterSpacing: 1,
                 ),
               ),

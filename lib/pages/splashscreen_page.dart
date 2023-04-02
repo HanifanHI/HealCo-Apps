@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 
 import '../pages/main_page.dart';
@@ -64,7 +63,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                   'HealCo',
                   style: whiteTextstyle.copyWith(
                     fontSize: 36,
-                    fontWeight: extraBold,
+                    fontWeight: bold,
                     letterSpacing: 5,
                   ),
                 ),
@@ -73,11 +72,12 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                 ),
                 Text(
                   'Corn disease detection'.toUpperCase(),
-                  style: GoogleFonts.montserrat(
+                  style: const TextStyle(
                     fontSize: 12,
                     letterSpacing: 3,
                     color: cWhiteColor,
                     fontWeight: medium,
+                    fontFamily: 'Montserrat',
                   ),
                 )
               ],

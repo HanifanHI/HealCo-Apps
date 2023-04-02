@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:healco/pages/kontak_page.dart';
-import 'package:healco/pages/tentang_page.dart';
 import 'package:provider/provider.dart';
 
 import '../data/api/api_service.dart';
@@ -15,7 +13,9 @@ import '../pages/home_page.dart';
 import '../pages/main_page.dart';
 import '../pages/onboarding_page.dart';
 import '../pages/splashscreen_page.dart';
-import 'pages/predict_page.dart';
+import '../pages/tentang_page.dart';
+import '../pages/kontak_page.dart';
+import '../pages/predict_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +53,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: MaterialApp(
+        theme: ThemeData(fontFamily: 'Lato'),
         debugShowCheckedModeBanner: false,
         initialRoute: SplashScreenPage.routeName,
         routes: {

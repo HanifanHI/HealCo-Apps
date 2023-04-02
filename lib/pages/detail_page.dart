@@ -120,7 +120,7 @@ class _DetailPageState extends State<DetailPage> {
                       'Deskripsi',
                       style: blackTextstyle.copyWith(
                         fontSize: 16,
-                        fontWeight: semiBold,
+                        fontWeight: bold,
                         letterSpacing: 1,
                       ),
                     ),
@@ -164,7 +164,7 @@ class _DetailPageState extends State<DetailPage> {
                       'Gejala',
                       style: blackTextstyle.copyWith(
                         fontSize: 16,
-                        fontWeight: semiBold,
+                        fontWeight: bold,
                         letterSpacing: 1,
                       ),
                     ),
@@ -208,7 +208,7 @@ class _DetailPageState extends State<DetailPage> {
                       'Penyebab',
                       style: blackTextstyle.copyWith(
                         fontSize: 16,
-                        fontWeight: semiBold,
+                        fontWeight: bold,
                         letterSpacing: 1,
                       ),
                     ),
@@ -252,7 +252,7 @@ class _DetailPageState extends State<DetailPage> {
                       'Pengobatan',
                       style: blackTextstyle.copyWith(
                         fontSize: 16,
-                        fontWeight: semiBold,
+                        fontWeight: bold,
                         letterSpacing: 1,
                       ),
                     ),

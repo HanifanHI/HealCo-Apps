@@ -85,7 +85,7 @@ class KontakPageState extends State<KontakPage> {
                               'Whatsapp',
                               style: blackTextstyle.copyWith(
                                 fontSize: 16,
-                                fontWeight: semiBold,
+                                fontWeight: bold,
                                 letterSpacing: 1,
                               ),
                             ),
@@ -137,7 +137,7 @@ class KontakPageState extends State<KontakPage> {
                               'Email',
                               style: blackTextstyle.copyWith(
                                 fontSize: 16,
-                                fontWeight: semiBold,
+                                fontWeight: bold,
                                 letterSpacing: 0.2,
                               ),
                             ),

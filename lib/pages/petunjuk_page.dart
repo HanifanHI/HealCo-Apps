@@ -37,7 +37,7 @@ class PetunjukPage extends StatelessWidget {
                 'Deteksi penyakit',
                 style: blackTextstyle.copyWith(
                   fontSize: 18,
-                  fontWeight: semiBold,
+                  fontWeight: bold,
                   letterSpacing: 1,
                 ),
               ),
@@ -145,7 +145,7 @@ class PetunjukPage extends StatelessWidget {
                 'Lihat Riwayat Deteksi',
                 style: blackTextstyle.copyWith(
                   fontSize: 18,
-                  fontWeight: semiBold,
+                  fontWeight: bold,
                   letterSpacing: 1,
                 ),
               ),
@@ -229,7 +229,7 @@ class PetunjukPage extends StatelessWidget {
                 'Tips Deteksi Penyakit',
                 style: blackTextstyle.copyWith(
                   fontSize: 18,
-                  fontWeight: semiBold,
+                  fontWeight: bold,
                   letterSpacing: 1,
                 ),
               ),

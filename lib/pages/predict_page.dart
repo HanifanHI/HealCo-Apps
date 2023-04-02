@@ -66,7 +66,7 @@ class StartDetectPageState extends State<StartDetectPage> {
                   'DIAGNOSIS',
                   style: blackTextstyle.copyWith(
                     fontSize: 24,
-                    fontWeight: semiBold,
+                    fontWeight: bold,
                     letterSpacing: 1,
                   ),
                 ),
@@ -176,7 +176,7 @@ class StartDetectPageState extends State<StartDetectPage> {
                                           'Lihat Detail',
                                           style: whiteTextstyle.copyWith(
                                             fontSize: 18,
-                                            fontWeight: semiBold,
+                                            fontWeight: bold,
                                             letterSpacing: 1,
                                           ),
                                         ),
@@ -227,7 +227,7 @@ class StartDetectPageState extends State<StartDetectPage> {
                                         'Mulai Deteksi',
                                         style: whiteTextstyle.copyWith(
                                           fontSize: 18,
-                                          fontWeight: semiBold,
+                                          fontWeight: bold,
                                           letterSpacing: 1,
                                         ),
                                       ),

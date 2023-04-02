@@ -288,7 +288,7 @@ class HomePageState extends State<HomePage> {
                         'Kamera',
                         style: blackTextstyle.copyWith(
                           fontSize: 18,
-                          fontWeight: semiBold,
+                          fontWeight: bold,
                           letterSpacing: 1,
                         ),
                       )
@@ -334,7 +334,7 @@ class HomePageState extends State<HomePage> {
                         'Galeri',
                         style: blackTextstyle.copyWith(
                           fontSize: 18,
-                          fontWeight: semiBold,
+                          fontWeight: bold,
                           letterSpacing: 1,
                         ),
                       )

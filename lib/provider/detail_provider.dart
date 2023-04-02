@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:healco/data/api/api_service.dart';
-import 'package:healco/data/models/detail_model.dart';
 
+import '../data/api/api_service.dart';
+import '../data/models/detail_model.dart';
 import '../utils/result_state.dart';
 
 class DetailProvider extends ChangeNotifier {
