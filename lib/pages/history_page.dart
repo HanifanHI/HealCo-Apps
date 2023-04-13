@@ -23,15 +23,31 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: cWhiteColor,
-        elevation: 1,
-        title: Text(
-          'Riwayat',
-          style: blackTextstyle.copyWith(
-            fontSize: 18,
-            fontWeight: bold,
-            letterSpacing: 1,
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.09 +
+                MediaQuery.of(context).padding.top,
+            minHeight: MediaQuery.of(context).size.height * 0.09 +
+                MediaQuery.of(context).padding.top,
+            maxWidth: MediaQuery.of(context).size.width,
+            minWidth: MediaQuery.of(context).size.width,
+          ),
+          child: AppBar(
+            backgroundColor: cWhiteColor,
+            elevation: 1,
+            title: Text(
+              'Riwayat',
+              style: blackTextstyle.copyWith(
+                fontSize: MediaQuery.of(context).size.height * 0.03,
+                fontWeight: bold,
+                letterSpacing: 1,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
         ),
       ),
@@ -78,54 +94,65 @@ class _HistoryPageState extends State<HistoryPage> {
                             child: Row(
                               children: [
                                 Container(
-                                  width: 100,
-                                  height: 80,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.25,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.115,
                                   decoration: BoxDecoration(
                                     color: cGrayColor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                      'https://healco.hanifanhi.com/uploads/predict/${data[index]['foto']}',
-                                      fit: BoxFit.cover,
-                                    ),
+                                  // child: ClipRRect(
+                                  //   borderRadius: BorderRadius.circular(10),
+                                  //   child: Image.network(
+                                  //     'https://healco.hanifanhi.com/uploads/predict/${data[index]['foto']}',
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        data[index]['nama']
+                                            .replaceAll('_', ' '),
+                                        style: blackTextstyle.copyWith(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.025,
+                                          fontWeight: medium,
+                                          letterSpacing: 1,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        '${data[index]['akurasi']} %',
+                                        style: grayTextstyle.copyWith(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.025,
+                                          fontWeight: medium,
+                                          letterSpacing: 1,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data[index]['nama']
-                                          .replaceAll('_', ' ')
-                                          .toUpperCase(),
-                                      style: blackTextstyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: medium,
-                                        letterSpacing: 1,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      '${data[index]['akurasi']} %',
-                                      style: grayTextstyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: medium,
-                                        letterSpacing: 1,
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ],
                             ),
                           ),
                         ),
                       ),
+                      const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () {
                           showDialog(
@@ -137,8 +164,8 @@ class _HistoryPageState extends State<HistoryPage> {
                           );
                         },
                         child: Container(
-                          width: 30,
-                          height: 30,
+                          width: MediaQuery.of(context).size.height * 0.05,
+                          height: MediaQuery.of(context).size.height * 0.05,
                           decoration: const BoxDecoration(
                             color: cRedColor,
                             shape: BoxShape.circle,
@@ -146,7 +173,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           child: Center(
                             child: Image.asset(
                               'assets/icons/ic_trash.png',
-                              width: 18,
+                              width: MediaQuery.of(context).size.height * 0.03,
                             ),
                           ),
                         ),

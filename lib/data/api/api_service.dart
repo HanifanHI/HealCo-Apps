@@ -6,7 +6,7 @@ import '../models/detail_model.dart';
 import '../models/predict_model.dart';
 
 class ApiService {
-  static const String _baseUrl = 'http://7d84-182-2-75-4.ngrok.io';
+  static const String _baseUrl = 'http://a6df-182-2-85-162.ngrok.io';
 
   // NOTE : PREDICT
   Future<PredictModel> predict(String image) async {

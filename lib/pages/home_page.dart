@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:healco/config/colors.dart';
-import 'package:healco/config/font_weight.dart';
-import 'package:healco/config/text_styles.dart';
-import 'package:healco/pages/predict_page.dart';
-import 'package:healco/pages/tentang_page.dart';
-import 'package:healco/provider/page_provider.dart';
+import '../config/colors.dart';
+import '../config/font_weight.dart';
+import '../config/text_styles.dart';
+import '../pages/predict_page.dart';
+import '../pages/tentang_page.dart';
+import '../provider/page_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -49,123 +49,141 @@ class HomePageState extends State<HomePage> {
 
   PreferredSizeWidget _appbar() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(60),
+      preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
       child: ClipRect(
-        child: AppBar(
-          backgroundColor: cOrangeColor,
-          flexibleSpace: Transform.translate(
-            offset: const Offset(-30, 10),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: Image.asset(
-                'assets/images/img_header_wave.png',
-                width: 250,
-              ),
-            ),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.09 +
+                MediaQuery.of(context).padding.top,
+            minHeight: MediaQuery.of(context).size.height * 0.09 +
+                MediaQuery.of(context).padding.top,
+            maxWidth: MediaQuery.of(context).size.width,
+            minWidth: MediaQuery.of(context).size.width,
           ),
-          title: Text(
-            'HealCo',
-            style: whiteTextstyle.copyWith(
-              fontSize: 28,
-              fontWeight: bold,
-              letterSpacing: 2,
+          child: AppBar(
+            backgroundColor: cOrangeColor,
+            flexibleSpace: Transform.translate(
+              offset: const Offset(-30, 10),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Image.asset(
+                  'assets/images/img_header_wave.png',
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
+            title: Text(
+              'HealCo',
+              style: whiteTextstyle.copyWith(
+                fontSize: MediaQuery.of(context).size.height * 0.04,
+                fontWeight: bold,
+                letterSpacing: 2,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+            actions: [
+              PopupMenuButton(
+                icon: Icon(
+                  Icons.more_vert_rounded,
+                  color: cWhiteColor,
+                  size: MediaQuery.of(context).size.height * 0.04,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                      value: 1,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        'Bagikan',
+                        style: blackTextstyle.copyWith(
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 2,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        'Kontak',
+                        style: blackTextstyle.copyWith(
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 3,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        'Tentang',
+                        style: blackTextstyle.copyWith(
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 4,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        'Beri Ulasan',
+                        style: blackTextstyle.copyWith(
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                  ];
+                },
+                onSelected: (value) {
+                  switch (value) {
+                    case 1:
+                      Share.share(
+                          'https://play.google.com/store/apps/details?id=com.instagram.android&hl=id&gl=US');
+                      break;
+                    case 2:
+                      Navigator.pushNamed(
+                        context,
+                        KontakPage.routeName,
+                      );
+                      break;
+                    case 3:
+                      Navigator.pushNamed(
+                        context,
+                        TentangPage.routeName,
+                      );
+                      break;
+                    case 4:
+                      LaunchReview.launch(
+                        androidAppId: 'com.instagram.android',
+                        writeReview: false,
+                      );
+                      break;
+                  }
+                },
+              ),
+            ],
           ),
-          actions: [
-            PopupMenuButton(
-              icon: const Icon(
-                Icons.more_vert_rounded,
-                color: cWhiteColor,
-                size: 26,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              itemBuilder: (context) {
-                return [
-                  PopupMenuItem(
-                    value: 1,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      'Bagikan',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: 2,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      'Kontak',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: 3,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      'Tentang',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: 4,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      'Beri Ulasan',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                ];
-              },
-              onSelected: (value) {
-                switch (value) {
-                  case 1:
-                    Share.share(
-                        'https://play.google.com/store/apps/details?id=com.instagram.android&hl=id&gl=US');
-                    break;
-                  case 2:
-                    Navigator.pushNamed(
-                      context,
-                      KontakPage.routeName,
-                    );
-                    break;
-                  case 3:
-                    Navigator.pushNamed(
-                      context,
-                      TentangPage.routeName,
-                    );
-                    break;
-                  case 4:
-                    LaunchReview.launch(
-                      androidAppId: 'com.instagram.android',
-                      writeReview: false,
-                    );
-                    break;
-                }
-              },
-            ),
-          ],
         ),
       ),
     );
   }
 
   Widget _banner() {
-    return SizedBox(
-      width: double.infinity,
-      height: 200,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.3,
+        maxWidth: MediaQuery.of(context).size.width,
+        minHeight: MediaQuery.of(context).size.height * 0.3,
+        minWidth: MediaQuery.of(context).size.width,
+      ),
       child: CarouselSlider(
         carouselController: _controller,
         items: const [
@@ -180,8 +198,7 @@ class HomePageState extends State<HomePage> {
           ),
         ],
         options: CarouselOptions(
-          height: double.infinity,
-          aspectRatio: 2,
+          height: MediaQuery.of(context).size.width,
           enlargeCenterPage: true,
           enableInfiniteScroll: false,
           initialPage: 1,
@@ -192,6 +209,9 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('WITDH : ${MediaQuery.of(context).size.width}');
+    print('HEIGHT : ${MediaQuery.of(context).size.width * 0.5}');
+
     return Scaffold(
       backgroundColor: cWhiteColor,
       appBar: _appbar(),
@@ -199,44 +219,55 @@ class HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
-            _banner(),
             const SizedBox(height: 20),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    'Identifikasi',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 20,
-                      fontWeight: bold,
-                      letterSpacing: 1,
+            _banner(),
+            const SizedBox(height: 15),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.1,
+                maxWidth: MediaQuery.of(context).size.width,
+                minHeight: MediaQuery.of(context).size.height * 0.1,
+                minWidth: MediaQuery.of(context).size.width,
+              ),
+              child: Container(
+                // color: cRedColor,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Identifikasi',
+                      style: blackTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.03,
+                        fontWeight: bold,
+                        letterSpacing: 1,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Ayo! identifikasi penyakit tanaman jagung anda',
-                style: grayTextstyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: regular,
-                  letterSpacing: 0.8,
+                    const SizedBox(height: 5),
+                    Text(
+                      'Ayo! identifikasi penyakit tanaman jagung anda',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
+                        fontWeight: regular,
+                        letterSpacing: 0.8,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    const SizedBox(height: 10),
+                  ],
                 ),
               ),
             ),
-            const SizedBox(height: 15),
             Container(
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width,
               alignment: Alignment.center,
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              width: double.infinity,
-              height: 150,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: cWhiteColor,
@@ -248,126 +279,162 @@ class HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          getImageWithCamera().then(
-                            (value) {
-                              if (value == null) {
-                                Provider.of<PageProvider>(context,
-                                        listen: false)
-                                    .setPage(0);
-                              } else {
-                                Navigator.pushNamed(
-                                  context,
-                                  StartDetectPage.routeName,
-                                  arguments: value,
-                                );
-                              }
-                            },
-                          );
-                        },
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: cOrangeColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Image.asset(
-                            'assets/icons/ic_camera.png',
-                            width: 80,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.25,
+                      minHeight: MediaQuery.of(context).size.height * 0.25,
+                      maxWidth: MediaQuery.of(context).size.width * 0.3,
+                      minWidth: MediaQuery.of(context).size.width * 0.3,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            getImageWithCamera().then(
+                              (value) {
+                                if (value == null) {
+                                  Provider.of<PageProvider>(context,
+                                          listen: false)
+                                      .setPage(0);
+                                } else {
+                                  Navigator.pushNamed(
+                                    context,
+                                    StartDetectPage.routeName,
+                                    arguments: value,
+                                  );
+                                }
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.height * 0.12,
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            decoration: BoxDecoration(
+                              color: cOrangeColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Image.asset(
+                              'assets/icons/ic_camera.png',
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 7),
-                      Text(
-                        'Kamera',
-                        style: blackTextstyle.copyWith(
-                          fontSize: 18,
-                          fontWeight: bold,
-                          letterSpacing: 1,
-                        ),
-                      )
-                    ],
+                        const SizedBox(height: 7),
+                        Text(
+                          'Kamera',
+                          style: blackTextstyle.copyWith(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.025,
+                            fontWeight: bold,
+                            letterSpacing: 1,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        )
+                      ],
+                    ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          getImageWithGallery().then(
-                            (value) {
-                              if (value == null) {
-                                Provider.of<PageProvider>(context,
-                                        listen: false)
-                                    .setPage(0);
-                              } else {
-                                Navigator.pushNamed(
-                                  context,
-                                  StartDetectPage.routeName,
-                                  arguments: value,
-                                );
-                              }
-                            },
-                          );
-                        },
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: cOrangeColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Image.asset(
-                            'assets/icons/ic_gallery.png',
-                            width: 80,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.25,
+                      minHeight: MediaQuery.of(context).size.height * 0.25,
+                      maxWidth: MediaQuery.of(context).size.width * 0.3,
+                      minWidth: MediaQuery.of(context).size.width * 0.3,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            getImageWithGallery().then(
+                              (value) {
+                                if (value == null) {
+                                  Provider.of<PageProvider>(context,
+                                          listen: false)
+                                      .setPage(0);
+                                } else {
+                                  Navigator.pushNamed(
+                                    context,
+                                    StartDetectPage.routeName,
+                                    arguments: value,
+                                  );
+                                }
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.height * 0.12,
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            decoration: BoxDecoration(
+                              color: cOrangeColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Image.asset(
+                              'assets/icons/ic_gallery.png',
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 7),
-                      Text(
-                        'Galeri',
-                        style: blackTextstyle.copyWith(
-                          fontSize: 18,
-                          fontWeight: bold,
-                          letterSpacing: 1,
-                        ),
-                      )
-                    ],
+                        const SizedBox(height: 7),
+                        Text(
+                          'Galeri',
+                          style: blackTextstyle.copyWith(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.025,
+                            fontWeight: bold,
+                            letterSpacing: 1,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Penyakit',
-                style: blackTextstyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: bold,
-                  letterSpacing: 1,
+            const SizedBox(height: 15),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.1,
+                maxWidth: MediaQuery.of(context).size.width,
+                minHeight: MediaQuery.of(context).size.height * 0.1,
+                minWidth: MediaQuery.of(context).size.width,
+              ),
+              child: Container(
+                // color: cRedColor,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Penyakit',
+                      style: blackTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.03,
+                        fontWeight: bold,
+                        letterSpacing: 1,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      'Penyakit yang umum dijumpai pada daun jagung',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
+                        fontWeight: regular,
+                        letterSpacing: 0.8,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
                 ),
               ),
             ),
-            const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Penyakit yang umum dijumpai pada daun jagung',
-                style: grayTextstyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: regular,
-                  letterSpacing: 0.8,
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
             const ItemPenyakit(
               image: 'assets/images/img_hawar_daun.png',
               title: 'Hawar Daun',
@@ -383,9 +450,7 @@ class HomePageState extends State<HomePage> {
               title: 'Karat Daun',
               subTitle: 'Puccinia sorghi',
             ),
-            const SizedBox(
-              height: 90,
-            ),
+            const SizedBox(height: 70),
           ],
         ),
       ),

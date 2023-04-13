@@ -22,7 +22,7 @@ class HapusDialog extends StatelessWidget {
       title: Center(
         child: Image.asset(
           'assets/images/img_frowning_face.png',
-          width: 70,
+          width: MediaQuery.of(context).size.width * 0.18,
         ),
       ),
       children: [
@@ -30,10 +30,12 @@ class HapusDialog extends StatelessWidget {
           child: Text(
             'Hapus Data',
             style: redTextstyle.copyWith(
-              fontSize: 18,
+              fontSize: MediaQuery.of(context).size.width * 0.05,
               fontWeight: bold,
               letterSpacing: 1,
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ),
         const SizedBox(
@@ -43,10 +45,12 @@ class HapusDialog extends StatelessWidget {
           child: Text(
             'Apakah anda yakin mau hapus?',
             style: grayTextstyle.copyWith(
-              fontSize: 14,
+              fontSize: MediaQuery.of(context).size.width * 0.04,
               fontWeight: medium,
               letterSpacing: 1,
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ),
         const SizedBox(
@@ -68,7 +72,7 @@ class HapusDialog extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   margin: const EdgeInsets.only(left: 20, right: 15),
-                  height: 40,
+                  height: MediaQuery.of(context).size.height * 0.06,
                   decoration: BoxDecoration(
                     color: cWhiteColor,
                     borderRadius: BorderRadius.circular(10),
@@ -80,10 +84,12 @@ class HapusDialog extends StatelessWidget {
                   child: Text(
                     'Ya',
                     style: redTextstyle.copyWith(
-                      fontSize: 14,
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
                       fontWeight: bold,
                       letterSpacing: 1,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
               ),
@@ -96,17 +102,19 @@ class HapusDialog extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   margin: const EdgeInsets.only(right: 20, left: 15),
-                  height: 40,
+                  height: MediaQuery.of(context).size.height * 0.06,
                   decoration: BoxDecoration(
                       color: cOrangeColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: Text(
                     'Tidak',
                     style: whiteTextstyle.copyWith(
-                      fontSize: 14,
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
                       fontWeight: bold,
                       letterSpacing: 1,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
               ),

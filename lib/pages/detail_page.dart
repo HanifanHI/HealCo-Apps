@@ -27,20 +27,34 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cWhiteColor,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: cWhiteColor,
-        leading: Center(
-          child: Consumer<PageProvider>(
-            builder: (context, pageProv, _) => GestureDetector(
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, MainPage.routeName, (route) => false);
-                pageProv.setPage(0);
-              },
-              child: Image.asset(
-                'assets/icons/ic_arrow_left_black.png',
-                width: 26,
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.09 +
+                MediaQuery.of(context).padding.top,
+            minHeight: MediaQuery.of(context).size.height * 0.09 +
+                MediaQuery.of(context).padding.top,
+            maxWidth: MediaQuery.of(context).size.width,
+            minWidth: MediaQuery.of(context).size.width,
+          ),
+          child: AppBar(
+            elevation: 0,
+            backgroundColor: cWhiteColor,
+            leading: Center(
+              child: Consumer<PageProvider>(
+                builder: (context, pageProv, _) => GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, MainPage.routeName, (route) => false);
+                    pageProv.setPage(0);
+                  },
+                  child: Image.asset(
+                    'assets/icons/ic_arrow_left_black.png',
+                    width: MediaQuery.of(context).size.height * 0.04,
+                  ),
+                ),
               ),
             ),
           ),
@@ -60,8 +74,8 @@ class _DetailPageState extends State<DetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: double.infinity,
-                    height: 220,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     child: Stack(
                       children: [
                         CarouselSlider(
@@ -73,14 +87,15 @@ class _DetailPageState extends State<DetailPage> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
+                                color: cGrayColor,
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.network(
-                                  'https://healco.hanifanhi.com/uploads/disease/${detailProv.detailModel.gambar[index]}',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                              // child: ClipRRect(
+                              //   borderRadius: BorderRadius.circular(5),
+                              //   child: Image.network(
+                              //     'https://healco.hanifanhi.com/uploads/disease/${detailProv.detailModel.gambar[index]}',
+                              //     fit: BoxFit.cover,
+                              //   ),
+                              // ),
                             );
                           }),
                           options: CarouselOptions(
@@ -101,14 +116,14 @@ class _DetailPageState extends State<DetailPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      detailProv.detailModel.nama
-                          .replaceAll('_', ' ')
-                          .toUpperCase(),
+                      detailProv.detailModel.nama.replaceAll('_', ' '),
                       style: blackTextstyle.copyWith(
-                        fontSize: 20,
+                        fontSize: MediaQuery.of(context).size.height * 0.03,
                         fontWeight: bold,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                   const SizedBox(
@@ -119,10 +134,12 @@ class _DetailPageState extends State<DetailPage> {
                     child: Text(
                       'Deskripsi',
                       style: blackTextstyle.copyWith(
-                        fontSize: 16,
+                        fontSize: MediaQuery.of(context).size.height * 0.025,
                         fontWeight: bold,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                   const SizedBox(
@@ -133,9 +150,9 @@ class _DetailPageState extends State<DetailPage> {
                     child: ReadMoreText(
                       detailProv.detailModel.deskripsi,
                       style: grayTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       trimLines: 4,
                       colorClickableText: cOrangeColor,
@@ -143,14 +160,14 @@ class _DetailPageState extends State<DetailPage> {
                       trimCollapsedText: 'Lebih Banyak',
                       trimExpandedText: ' Lebih Sedikit',
                       moreStyle: orangeTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: medium,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       lessStyle: orangeTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: medium,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       textAlign: TextAlign.left,
                     ),
@@ -163,10 +180,12 @@ class _DetailPageState extends State<DetailPage> {
                     child: Text(
                       'Gejala',
                       style: blackTextstyle.copyWith(
-                        fontSize: 16,
+                        fontSize: MediaQuery.of(context).size.height * 0.025,
                         fontWeight: bold,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                   const SizedBox(
@@ -177,9 +196,9 @@ class _DetailPageState extends State<DetailPage> {
                     child: ReadMoreText(
                       detailProv.detailModel.gejala,
                       style: grayTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       trimLines: 4,
                       colorClickableText: cOrangeColor,
@@ -187,14 +206,14 @@ class _DetailPageState extends State<DetailPage> {
                       trimCollapsedText: 'Lebih Banyak',
                       trimExpandedText: ' Lebih Sedikit',
                       moreStyle: orangeTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: medium,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       lessStyle: orangeTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: medium,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       textAlign: TextAlign.left,
                     ),
@@ -207,10 +226,12 @@ class _DetailPageState extends State<DetailPage> {
                     child: Text(
                       'Penyebab',
                       style: blackTextstyle.copyWith(
-                        fontSize: 16,
+                        fontSize: MediaQuery.of(context).size.height * 0.025,
                         fontWeight: bold,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                   const SizedBox(
@@ -221,9 +242,9 @@ class _DetailPageState extends State<DetailPage> {
                     child: ReadMoreText(
                       detailProv.detailModel.penyebab,
                       style: grayTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       trimLines: 4,
                       colorClickableText: cOrangeColor,
@@ -231,14 +252,14 @@ class _DetailPageState extends State<DetailPage> {
                       trimCollapsedText: 'Lebih Banyak',
                       trimExpandedText: ' Lebih Sedikit',
                       moreStyle: orangeTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: medium,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       lessStyle: orangeTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: medium,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       textAlign: TextAlign.left,
                     ),
@@ -251,10 +272,12 @@ class _DetailPageState extends State<DetailPage> {
                     child: Text(
                       'Pengobatan',
                       style: blackTextstyle.copyWith(
-                        fontSize: 16,
+                        fontSize: MediaQuery.of(context).size.height * 0.025,
                         fontWeight: bold,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                   const SizedBox(
@@ -265,9 +288,9 @@ class _DetailPageState extends State<DetailPage> {
                     child: ReadMoreText(
                       detailProv.detailModel.pengobatan,
                       style: grayTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       trimLines: 4,
                       colorClickableText: cOrangeColor,
@@ -275,14 +298,14 @@ class _DetailPageState extends State<DetailPage> {
                       trimCollapsedText: 'Lebih Banyak',
                       trimExpandedText: ' Lebih Sedikit',
                       moreStyle: orangeTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: medium,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       lessStyle: orangeTextstyle.copyWith(
-                        fontSize: 14,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: medium,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                       textAlign: TextAlign.left,
                     ),
@@ -298,9 +321,9 @@ class _DetailPageState extends State<DetailPage> {
               child: Text(
                 detailProv.message,
                 style: redTextstyle.copyWith(
-                  fontSize: 16,
+                  fontSize: MediaQuery.of(context).size.height * 0.03,
                   fontWeight: medium,
-                  letterSpacing: 1,
+                  letterSpacing: 0.5,
                 ),
                 textAlign: TextAlign.center,
               ),

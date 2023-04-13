@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healco/config/colors.dart';
 
 import '../../config/font_weight.dart';
 import '../../config/text_styles.dart';
@@ -25,8 +26,8 @@ class ItemPenyakit extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 100,
-            height: 70,
+            width: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.12,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
@@ -36,31 +37,45 @@ class ItemPenyakit extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: blackTextstyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: bold,
-                  letterSpacing: 1,
-                ),
+          Expanded(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.12,
+                minHeight: MediaQuery.of(context).size.height * 0.12,
+                maxWidth: MediaQuery.of(context).size.width,
+                minWidth: MediaQuery.of(context).size.width,
               ),
-              const SizedBox(
-                height: 5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: blackTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.025,
+                      fontWeight: bold,
+                      letterSpacing: 1,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    subTitle,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontWeight: regular,
+                      letterSpacing: 1,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ],
               ),
-              Text(
-                subTitle,
-                style: grayTextstyle.copyWith(
-                  fontSize: 12,
-                  fontWeight: regular,
-                  letterSpacing: 1,
-                ),
-              ),
-            ],
-          )
+            ),
+          ),
         ],
       ),
     );

@@ -11,15 +11,31 @@ class PetunjukPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cWhiteColor,
-      appBar: AppBar(
-        backgroundColor: cWhiteColor,
-        elevation: 1,
-        title: Text(
-          'Petunjuk',
-          style: blackTextstyle.copyWith(
-            fontSize: 18,
-            fontWeight: bold,
-            letterSpacing: 1,
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.09 +
+                MediaQuery.of(context).padding.top,
+            minHeight: MediaQuery.of(context).size.height * 0.09 +
+                MediaQuery.of(context).padding.top,
+            maxWidth: MediaQuery.of(context).size.width,
+            minWidth: MediaQuery.of(context).size.width,
+          ),
+          child: AppBar(
+            backgroundColor: cWhiteColor,
+            elevation: 1,
+            title: Text(
+              'Petunjuk',
+              style: blackTextstyle.copyWith(
+                fontSize: MediaQuery.of(context).size.height * 0.03,
+                fontWeight: bold,
+                letterSpacing: 1,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
         ),
       ),
@@ -36,10 +52,12 @@ class PetunjukPage extends StatelessWidget {
               Text(
                 'Deteksi penyakit',
                 style: blackTextstyle.copyWith(
-                  fontSize: 18,
+                  fontSize: MediaQuery.of(context).size.height * 0.025,
                   fontWeight: bold,
                   letterSpacing: 1,
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
               const SizedBox(
                 height: 10,
@@ -49,19 +67,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '1.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Masuk ke halaman Beranda kemudian pilih menu Kamera atau Galeri untuk mengambil gambar.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -73,19 +91,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '2.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Setelah mengambil gambar klik tombol Deteksi, tunggu sampai proses deteksi selesai.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -97,19 +115,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '3.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Lihat hasil diagnosis penyakit tanaman jagung anda.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -121,19 +139,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '4.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Klik tombol Lihat Detail untuk melihat informasi mengenai detail penyakit tersebut.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -144,10 +162,12 @@ class PetunjukPage extends StatelessWidget {
               Text(
                 'Lihat Riwayat Deteksi',
                 style: blackTextstyle.copyWith(
-                  fontSize: 18,
+                  fontSize: MediaQuery.of(context).size.height * 0.025,
                   fontWeight: bold,
                   letterSpacing: 1,
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
               const SizedBox(
                 height: 10,
@@ -157,19 +177,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '1.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Masuk ke halaman Riwayat.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -181,19 +201,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '2.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Klik salah satu item untuk melihat detail informasi mengenai diagnosis penyakit tersebut.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -205,19 +225,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '3.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Klik tombol hapus untuk menghapus item yang dipilih.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -228,10 +248,12 @@ class PetunjukPage extends StatelessWidget {
               Text(
                 'Tips Deteksi Penyakit',
                 style: blackTextstyle.copyWith(
-                  fontSize: 18,
+                  fontSize: MediaQuery.of(context).size.height * 0.025,
                   fontWeight: bold,
                   letterSpacing: 1,
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
               const SizedBox(
                 height: 10,
@@ -241,19 +263,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '1.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Dekatkan kamera anda ke daun jagung yang ingin di deteksi.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -265,19 +287,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '2.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Pastikan kamera fokus ke kerusakan daun jagung.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -289,19 +311,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '3.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Posisikan kerusakan daun jagung di tengah kamera.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -313,19 +335,19 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '4.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Pencahayaan tidak terlalu gelap ataupun terlalu terang.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
@@ -337,24 +359,25 @@ class PetunjukPage extends StatelessWidget {
                 children: [
                   Text(
                     '5.  ',
-                    style: blackTextstyle.copyWith(
-                      fontSize: 14,
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.022,
                       fontWeight: regular,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Pastikan gambar terlihat dengan jelas.',
-                      style: blackTextstyle.copyWith(
-                        fontSize: 14,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         fontWeight: regular,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ),
                 ],
               ),
+              const SizedBox(height: 80),
             ],
           ),
         ),

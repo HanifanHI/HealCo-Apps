@@ -40,17 +40,31 @@ class StartDetectPageState extends State<StartDetectPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: cWhiteColor,
-        appBar: AppBar(
-          elevation: 1,
-          backgroundColor: cWhiteColor,
-          leading: Center(
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset(
-                'assets/icons/ic_arrow_left_black.png',
-                width: 26,
+        appBar: PreferredSize(
+          preferredSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.09 +
+                  MediaQuery.of(context).padding.top,
+              minHeight: MediaQuery.of(context).size.height * 0.09 +
+                  MediaQuery.of(context).padding.top,
+              maxWidth: MediaQuery.of(context).size.width,
+              minWidth: MediaQuery.of(context).size.width,
+            ),
+            child: AppBar(
+              elevation: 1,
+              backgroundColor: cWhiteColor,
+              leading: Center(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Image.asset(
+                    'assets/icons/ic_arrow_left_black.png',
+                    width: MediaQuery.of(context).size.height * 0.04,
+                  ),
+                ),
               ),
             ),
           ),
@@ -65,68 +79,90 @@ class StartDetectPageState extends State<StartDetectPage> {
                 Text(
                   'DIAGNOSIS',
                   style: blackTextstyle.copyWith(
-                    fontSize: 24,
+                    fontSize: MediaQuery.of(context).size.height * 0.035,
                     fontWeight: bold,
                     letterSpacing: 1,
                   ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Stack(
-                  alignment: Alignment.center,
+                  alignment: Alignment.topCenter,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: 300,
-                      decoration: BoxDecoration(
-                        color: cGrayColor,
-                        borderRadius: BorderRadius.circular(10),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.4,
+                        minHeight: MediaQuery.of(context).size.height * 0.4,
+                        maxWidth: MediaQuery.of(context).size.width * 0.6,
+                        minWidth: MediaQuery.of(context).size.width * 0.6,
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.file(
-                          File(data.path),
-                          fit: BoxFit.cover,
+                      child: Container(
+                        // width: MediaQuery.of(context).size.width * 0.7,
+                        // height: MediaQuery.of(context).size.width * 0.75,
+                        decoration: BoxDecoration(
+                          color: cGrayColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.file(
+                            File(data.path),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: 300,
-                      decoration: BoxDecoration(
-                        color: dataPredict != null
-                            ? Colors.black.withOpacity(0.5)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(10),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.4,
+                        minHeight: MediaQuery.of(context).size.height * 0.4,
+                        maxWidth: MediaQuery.of(context).size.width * 0.6,
+                        minWidth: MediaQuery.of(context).size.width * 0.6,
                       ),
-                      child: dataPredict != null
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'AKURASI :',
-                                  style: whiteTextstyle.copyWith(
-                                    fontSize: 20,
-                                    fontWeight: medium,
-                                    letterSpacing: 1,
+                      child: Container(
+                        // width: MediaQuery.of(context).size.width * 0.7,
+                        // height: MediaQuery.of(context).size.width * 0.75,
+                        decoration: BoxDecoration(
+                          color: dataPredict != null
+                              ? Colors.black.withOpacity(0.5)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: dataPredict != null
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'AKURASI :',
+                                    style: whiteTextstyle.copyWith(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.035,
+                                      fontWeight: medium,
+                                      letterSpacing: 1,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  ' ${dataPredict!.probability} %',
-                                  style: whiteTextstyle.copyWith(
-                                    fontSize: 32,
-                                    fontWeight: bold,
-                                    letterSpacing: 1,
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    '${dataPredict!.probability} %',
+                                    style: whiteTextstyle.copyWith(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.04,
+                                      fontWeight: bold,
+                                      letterSpacing: 1,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
-                                ),
-                              ],
-                            )
-                          : const SizedBox(),
+                                ],
+                              )
+                            : const SizedBox(),
+                      ),
                     ),
                   ],
                 ),
@@ -135,102 +171,158 @@ class StartDetectPageState extends State<StartDetectPage> {
                 ),
                 dataPredict != null
                     ? Text(
-                        dataPredict!.diagnosis
-                            .replaceAll('_', ' ')
-                            .toUpperCase(),
+                        dataPredict!.diagnosis.replaceAll('_', ' '),
                         style: blackTextstyle.copyWith(
-                          fontSize: 24,
+                          fontSize: MediaQuery.of(context).size.height * 0.035,
                           fontWeight: bold,
                           letterSpacing: 1,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       )
                     : const SizedBox(),
                 dataPredict != null
                     ? Consumer<DetailProvider>(
-                        builder: (context, detailProv, _) => GestureDetector(
-                          onTap: () {
-                            detailProv
-                                .getDetail(dataPredict!.diagnosis)
-                                .then((_) {
-                              Navigator.pushNamed(
-                                context,
-                                DetailPage.routeName,
-                              );
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(20),
-                            width: double.infinity,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: cOrangeColor,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Center(
-                              child:
-                                  detailProv.resultState == ResultState.loading
-                                      ? const CircularProgressIndicator(
+                        builder: (context, detailProv, _) => ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight:
+                                MediaQuery.of(context).size.height * 0.125,
+                            maxWidth: MediaQuery.of(context).size.width,
+                            minHeight:
+                                MediaQuery.of(context).size.height * 0.125,
+                            minWidth: MediaQuery.of(context).size.width,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              detailProv
+                                  .getDetail(dataPredict!.diagnosis)
+                                  .then((_) {
+                                Navigator.pushNamed(
+                                  context,
+                                  DetailPage.routeName,
+                                );
+                              });
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.all(20),
+                              // width: MediaQuery.of(context).size.width,
+                              // height: MediaQuery.of(context).size.height * 0.07,
+                              decoration: BoxDecoration(
+                                color: cOrangeColor,
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).size.height *
+                                        0.15 /
+                                        2),
+                              ),
+                              child: Center(
+                                child: detailProv.resultState ==
+                                        ResultState.loading
+                                    ? Container(
+                                        padding: EdgeInsets.all(
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                        width:
+                                            MediaQuery.of(context).size.height *
+                                                0.07,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.07,
+                                        child: const CircularProgressIndicator(
                                           color: cWhiteColor,
-                                        )
-                                      : Text(
-                                          'Lihat Detail',
-                                          style: whiteTextstyle.copyWith(
-                                            fontSize: 18,
-                                            fontWeight: bold,
-                                            letterSpacing: 1,
-                                          ),
                                         ),
+                                      )
+                                    : Text(
+                                        'Lihat Detail',
+                                        style: whiteTextstyle.copyWith(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.025,
+                                          fontWeight: bold,
+                                          letterSpacing: 1,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                              ),
                             ),
                           ),
                         ),
                       )
-                    : GestureDetector(
-                        onTap: () async {
-                          await imageToBase64(data).then((baseGambar) {
-                            predictProv.postPredict(baseGambar).then((value) {
-                              if (predictProv.resultState ==
-                                  ResultState.hasData) {
-                                setState(() {
-                                  dataPredict = predictProv.predictModel;
-                                });
-                              } else {
-                                showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return PredictDialog(
-                                      image: 'assets/images/img_dizzy_face.png',
-                                      title: 'Prediksi Gagal',
-                                      subTitle: predictProv.message,
-                                    );
-                                  },
-                                );
-                              }
+                    : ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.125,
+                          maxWidth: MediaQuery.of(context).size.width,
+                          minWidth: MediaQuery.of(context).size.width,
+                          minHeight: MediaQuery.of(context).size.height * 0.125,
+                        ),
+                        child: GestureDetector(
+                          onTap: () async {
+                            await imageToBase64(data).then((baseGambar) {
+                              predictProv.postPredict(baseGambar).then((value) {
+                                if (predictProv.resultState ==
+                                    ResultState.hasData) {
+                                  setState(() {
+                                    dataPredict = predictProv.predictModel;
+                                  });
+                                } else {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return PredictDialog(
+                                        image:
+                                            'assets/images/img_dizzy_face.png',
+                                        title: 'Prediksi Gagal',
+                                        subTitle: predictProv.message,
+                                      );
+                                    },
+                                  );
+                                }
+                              });
                             });
-                          });
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(20),
-                          width: double.infinity,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: cOrangeColor,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Center(
-                            child:
-                                predictProv.resultState == ResultState.loading
-                                    ? const CircularProgressIndicator(
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(20),
+                            // width: MediaQuery.of(context).size.width,
+                            // height: MediaQuery.of(context).size.height * 0.07,
+                            decoration: BoxDecoration(
+                              color: cOrangeColor,
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height *
+                                      0.15 /
+                                      2),
+                            ),
+                            child: Center(
+                              child: predictProv.resultState ==
+                                      ResultState.loading
+                                  ? Container(
+                                      padding: EdgeInsets.all(
+                                          MediaQuery.of(context).size.height *
+                                              0.01),
+                                      width:
+                                          MediaQuery.of(context).size.height *
+                                              0.07,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.07,
+                                      child: const CircularProgressIndicator(
                                         color: cWhiteColor,
-                                      )
-                                    : Text(
-                                        'Mulai Deteksi',
-                                        style: whiteTextstyle.copyWith(
-                                          fontSize: 18,
-                                          fontWeight: bold,
-                                          letterSpacing: 1,
-                                        ),
                                       ),
+                                    )
+                                  : Text(
+                                      'Mulai Deteksi',
+                                      style: whiteTextstyle.copyWith(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.025,
+                                        fontWeight: bold,
+                                        letterSpacing: 1,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                            ),
                           ),
                         ),
                       ),

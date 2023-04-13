@@ -23,7 +23,7 @@ class PredictDialog extends StatelessWidget {
       title: Center(
         child: Image.asset(
           image,
-          width: 70,
+          width: MediaQuery.of(context).size.width * 0.18,
         ),
       ),
       children: [
@@ -31,10 +31,12 @@ class PredictDialog extends StatelessWidget {
           child: Text(
             title,
             style: redTextstyle.copyWith(
-              fontSize: 18,
+              fontSize: MediaQuery.of(context).size.width * 0.05,
               fontWeight: bold,
               letterSpacing: 1,
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ),
         const SizedBox(
@@ -43,16 +45,17 @@ class PredictDialog extends StatelessWidget {
         Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              subTitle,
-              style: grayTextstyle.copyWith(
-                fontSize: 14,
-                fontWeight: medium,
-                letterSpacing: 1,
+            child: Center(
+              child: Text(
+                subTitle,
+                style: grayTextstyle.copyWith(
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                  fontWeight: medium,
+                  letterSpacing: 1,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
             ),
           ),
         ),
@@ -66,16 +69,20 @@ class PredictDialog extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.symmetric(horizontal: 20),
-            height: 40,
+            height: MediaQuery.of(context).size.height * 0.06,
             decoration: BoxDecoration(
-                color: cOrangeColor, borderRadius: BorderRadius.circular(10)),
+              color: cOrangeColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Text(
               'Kembali',
               style: whiteTextstyle.copyWith(
-                fontSize: 14,
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 fontWeight: bold,
                 letterSpacing: 1,
               ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
           ),
         ),

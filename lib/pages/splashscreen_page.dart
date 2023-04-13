@@ -38,13 +38,37 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset(
-                'assets/images/img_top_wave.png',
-                width: double.infinity,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.15 +
+                      MediaQuery.of(context).padding.top,
+                  minHeight: MediaQuery.of(context).size.height * 0.15 +
+                      MediaQuery.of(context).padding.top,
+                  maxWidth: MediaQuery.of(context).size.width,
+                  minWidth: MediaQuery.of(context).size.width,
+                ),
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Image.asset(
+                    'assets/images/img_top_wave.png',
+                    // width: MediaQuery.of(context).size.width,
+                  ),
+                ),
               ),
-              Image.asset(
-                'assets/images/img_bot_wave.png',
-                width: double.infinity,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.15,
+                  minHeight: MediaQuery.of(context).size.height * 0.15,
+                  maxWidth: MediaQuery.of(context).size.width,
+                  minWidth: MediaQuery.of(context).size.width,
+                ),
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Image.asset(
+                    'assets/images/img_bot_wave.png',
+                    // width: MediaQuery.of(context).size.width,
+                  ),
+                ),
               ),
             ],
           ),
@@ -54,30 +78,36 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
               children: [
                 Image.asset(
                   'assets/icons/ic_logo.png',
-                  width: MediaQuery.of(context).size.width * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.12,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'HealCo',
-                  style: whiteTextstyle.copyWith(
-                    fontSize: 36,
-                    fontWeight: bold,
-                    letterSpacing: 5,
+                const SizedBox(height: 10),
+                FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(
+                    'HealCo',
+                    style: whiteTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.05,
+                      fontWeight: bold,
+                      letterSpacing: 5,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  'Corn disease detection'.toUpperCase(),
-                  style: const TextStyle(
-                    fontSize: 12,
-                    letterSpacing: 3,
-                    color: cWhiteColor,
-                    fontWeight: medium,
-                    fontFamily: 'Montserrat',
+                const SizedBox(height: 4),
+                FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(
+                    'Corn disease detection'.toUpperCase(),
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.015,
+                      letterSpacing: 3,
+                      color: cWhiteColor,
+                      fontWeight: medium,
+                      fontFamily: 'Montserrat',
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 )
               ],
