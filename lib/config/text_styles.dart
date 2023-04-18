@@ -6,3 +6,4 @@ TextStyle blackTextstyle = const TextStyle(color: cBlackColor);
 TextStyle orangeTextstyle = const TextStyle(color: cOrangeColor);
 TextStyle grayTextstyle = const TextStyle(color: cGrayColor);
 TextStyle redTextstyle = const TextStyle(color: cRedColor);
+TextStyle greenTextstyle = const TextStyle(color: cGreenColor);

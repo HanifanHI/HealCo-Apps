@@ -22,16 +22,33 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final picker = ImagePicker();
+  XFile? image;
+  final ImagePicker _picker = ImagePicker();
+
+  Future getImageWithCamera() async {
+    final gambar = await _picker.pickImage(source: ImageSource.camera);
+    setState(() {
+      image = gambar;
+    });
+    return image;
+  }
+
+  Future getImageWithGallery() async {
+    final gambar = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      image = gambar;
+    });
+    return image;
+  }
 
   Widget buildContent(int currentIndex) {
     switch (currentIndex) {
       case 0:
         return const HomePage();
       case 1:
-        return BookPage();
-      case 2:
-        return const DetectPage();
+        return const BookPage();
+      // case 2:
+      //   return const DetectPage();
       case 3:
         return const HistoryPage();
       case 4:
@@ -150,37 +167,120 @@ class _MainPageState extends State<MainPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      value.setPage(2);
-                      // showModalBottomSheet(
-                      //   context: context,
-                      //   builder: (BuildContext context) {
-                      //     return Container(
-                      //       height: 150,
-                      //       child: Column(
-                      //         children: [
-                      //           ListTile(
-                      //             leading: Icon(Icons.camera_alt),
-                      //             title: Text("Camera"),
-                      //             onTap: () async {
-                      //               final pickedFile = await picker.getImage(
-                      //                   source: ImageSource.camera);
-                      //               Navigator.pop(context, pickedFile);
-                      //             },
-                      //           ),
-                      //           ListTile(
-                      //             leading: Icon(Icons.photo_library),
-                      //             title: Text("Gallery"),
-                      //             onTap: () async {
-                      //               final pickedFile = await picker.getImage(
-                      //                   source: ImageSource.gallery);
-                      //               Navigator.pop(context, pickedFile);
-                      //             },
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     );
-                      //   },
-                      // );
+                      // value.setPage(2);
+                      showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: 200,
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Ambil Gambar',
+                                      style: blackTextstyle.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: bold,
+                                        letterSpacing: 1,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Image.asset(
+                                        'assets/icons/ic_cancel.png',
+                                        width: 30,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 20),
+                                GestureDetector(
+                                  onTap: () {
+                                    getImageWithCamera().then(
+                                      (value) {
+                                        if (value != null) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            StartDetectPage.routeName,
+                                            arguments: value,
+                                          );
+                                          // Navigator.pop(context);
+                                          // Provider.of<PageProvider>(context,
+                                          //         listen: false)
+                                          //     .setPage(0);
+                                        }
+                                      },
+                                    );
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/ic_camera.png',
+                                        width: 40,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        'Kamera',
+                                        style: blackTextstyle.copyWith(
+                                          fontSize: 16,
+                                          fontWeight: regular,
+                                          letterSpacing: 1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 15),
+                                GestureDetector(
+                                  onTap: () {
+                                    getImageWithGallery().then(
+                                      (value) {
+                                        if (value != null) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            StartDetectPage.routeName,
+                                            arguments: value,
+                                          );
+                                        }
+                                      },
+                                    );
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/ic_gallery.png',
+                                        width: 40,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        'Galeri',
+                                        style: blackTextstyle.copyWith(
+                                          fontSize: 16,
+                                          fontWeight: regular,
+                                          letterSpacing: 1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
                     },
                     child: Center(
                       child: Transform.translate(
@@ -190,13 +290,13 @@ class _MainPageState extends State<MainPage> {
                               MediaQuery.of(context).size.height * 0.97),
                         ),
                         child: Container(
-                          width: 72,
-                          height: 72,
+                          width: 75,
+                          height: 75,
                           decoration: BoxDecoration(
                             color: cOrangeColor,
                             shape: BoxShape.circle,
                             border: Border.all(
-                              width: 2,
+                              width: 5,
                               color: cWhiteColor,
                             ),
                           ),

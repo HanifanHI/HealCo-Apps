@@ -23,51 +23,49 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       () {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) {
-            return const MainPage();
-          }),
+          MaterialPageRoute(
+            builder: (context) {
+              return const MainPage();
+            },
+          ),
           (route) => false,
         );
       },
     );
 
     return Scaffold(
-      backgroundColor: cOrangeColor,
       body: Stack(
         children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [cToscaColor, cGreenColor],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.15 +
-                      MediaQuery.of(context).padding.top,
-                  minHeight: MediaQuery.of(context).size.height * 0.15 +
-                      MediaQuery.of(context).padding.top,
-                  maxWidth: MediaQuery.of(context).size.width,
-                  minWidth: MediaQuery.of(context).size.width,
-                ),
-                child: FittedBox(
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.15,
+                child: Image.asset(
+                  'assets/images/img_top_wave.png',
+                  width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fill,
-                  child: Image.asset(
-                    'assets/images/img_top_wave.png',
-                    // width: MediaQuery.of(context).size.width,
-                  ),
                 ),
               ),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.15,
-                  minHeight: MediaQuery.of(context).size.height * 0.15,
-                  maxWidth: MediaQuery.of(context).size.width,
-                  minWidth: MediaQuery.of(context).size.width,
-                ),
-                child: FittedBox(
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.15,
+                child: Image.asset(
+                  'assets/images/img_bot_wave.png',
+                  width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fill,
-                  child: Image.asset(
-                    'assets/images/img_bot_wave.png',
-                    // width: MediaQuery.of(context).size.width,
-                  ),
                 ),
               ),
             ],
@@ -76,9 +74,13 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/icons/ic_logo.png',
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.12,
+                  child: Image.asset(
+                    'assets/icons/ic_logo.png',
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 FittedBox(
@@ -103,8 +105,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                       fontSize: MediaQuery.of(context).size.height * 0.015,
                       letterSpacing: 3,
                       color: cWhiteColor,
-                      fontWeight: medium,
-                      fontFamily: 'Montserrat',
+                      fontWeight: regular,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

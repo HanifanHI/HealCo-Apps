@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -7,7 +8,10 @@ import 'package:healco/config/colors.dart';
 import 'package:healco/config/font_weight.dart';
 import 'package:healco/config/text_styles.dart';
 import 'package:healco/data/models/predict_model.dart';
+import 'package:healco/pages/main_page.dart';
+import 'package:healco/pages/scanning.dart';
 import 'package:healco/provider/detail_provider.dart';
+import 'package:healco/provider/page_provider.dart';
 import 'package:healco/provider/predict_provider.dart';
 import 'package:healco/utils/result_state.dart';
 import 'package:healco/widgets/dialogs/predict_dialog.dart';
@@ -56,13 +60,20 @@ class StartDetectPageState extends State<StartDetectPage> {
               elevation: 1,
               backgroundColor: cWhiteColor,
               leading: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset(
-                    'assets/icons/ic_arrow_left_black.png',
-                    width: MediaQuery.of(context).size.height * 0.04,
+                child: Consumer<PageProvider>(
+                  builder: (context, value, child) => GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        MainPage.routeName,
+                        (route) => false,
+                      );
+                      value.setPage(0);
+                    },
+                    child: Image.asset(
+                      'assets/icons/ic_arrow_left_black.png',
+                      width: MediaQuery.of(context).size.height * 0.04,
+                    ),
                   ),
                 ),
               ),
@@ -120,49 +131,57 @@ class StartDetectPageState extends State<StartDetectPage> {
                         maxWidth: MediaQuery.of(context).size.width * 0.6,
                         minWidth: MediaQuery.of(context).size.width * 0.6,
                       ),
-                      child: Container(
-                        // width: MediaQuery.of(context).size.width * 0.7,
-                        // height: MediaQuery.of(context).size.width * 0.75,
-                        decoration: BoxDecoration(
-                          color: dataPredict != null
-                              ? Colors.black.withOpacity(0.5)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: dataPredict != null
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'AKURASI :',
-                                    style: whiteTextstyle.copyWith(
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.035,
-                                      fontWeight: medium,
-                                      letterSpacing: 1,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    '${dataPredict!.probability} %',
-                                    style: whiteTextstyle.copyWith(
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.04,
-                                      fontWeight: bold,
-                                      letterSpacing: 1,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                ],
-                              )
-                            : const SizedBox(),
-                      ),
+                      child: predictProv.resultState == ResultState.loading
+                          ? const CustomScanning(
+                              child: SizedBox(),
+                            )
+                          : Container(
+                              // width: MediaQuery.of(context).size.width * 0.7,
+                              // height: MediaQuery.of(context).size.width * 0.75,
+                              decoration: BoxDecoration(
+                                color: dataPredict != null
+                                    ? Colors.black.withOpacity(0.5)
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: dataPredict != null
+                                  ? Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'AKURASI :',
+                                          style: whiteTextstyle.copyWith(
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.035,
+                                            fontWeight: medium,
+                                            letterSpacing: 1,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          '${dataPredict!.probability} %',
+                                          style: whiteTextstyle.copyWith(
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.04,
+                                            fontWeight: bold,
+                                            letterSpacing: 1,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ],
+                                    )
+                                  : const SizedBox(),
+                            ),
                     ),
                   ],
                 ),
@@ -252,9 +271,9 @@ class StartDetectPageState extends State<StartDetectPage> {
                     : ConstrainedBox(
                         constraints: BoxConstraints(
                           maxHeight: MediaQuery.of(context).size.height * 0.125,
+                          minHeight: MediaQuery.of(context).size.height * 0.125,
                           maxWidth: MediaQuery.of(context).size.width,
                           minWidth: MediaQuery.of(context).size.width,
-                          minHeight: MediaQuery.of(context).size.height * 0.125,
                         ),
                         child: GestureDetector(
                           onTap: () async {

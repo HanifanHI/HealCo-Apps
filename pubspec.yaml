@@ -43,6 +43,7 @@ dependencies:
   share_plus: ^6.3.1
   shared_preferences: ^2.0.16
   url_launcher: ^6.1.7
+  scanning_effect: ^1.0.4
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -86,6 +87,21 @@ flutter:
       fonts:
         - asset: assets/fonts/Montserrat-Medium.ttf
           weight: 500
+    
+    - family: AlbertSans
+      fonts:
+        - asset: assets/fonts/AlbertSans-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/AlbertSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/AlbertSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/AlbertSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/AlbertSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/AlbertSans-Light.ttf
+          weight: 300
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -38,42 +38,34 @@ class ItemPenyakit extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           Expanded(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.12,
-                minHeight: MediaQuery.of(context).size.height * 0.12,
-                maxWidth: MediaQuery.of(context).size.width,
-                minWidth: MediaQuery.of(context).size.width,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    title,
-                    style: blackTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.025,
-                      fontWeight: bold,
-                      letterSpacing: 1,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: blackTextstyle.copyWith(
+                    fontSize: MediaQuery.of(context).size.height * 0.025,
+                    fontWeight: bold,
+                    letterSpacing: 1,
                   ),
-                  const SizedBox(
-                    height: 5,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  subTitle,
+                  style: grayTextstyle.copyWith(
+                    fontSize: MediaQuery.of(context).size.height * 0.02,
+                    fontWeight: regular,
+                    letterSpacing: 1,
                   ),
-                  Text(
-                    subTitle,
-                    style: grayTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: regular,
-                      letterSpacing: 1,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ],
-              ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ],
             ),
           ),
         ],

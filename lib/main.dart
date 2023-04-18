@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:healco/pages/disease_list.dart';
 import 'package:provider/provider.dart';
 
 import '../data/api/api_service.dart';
@@ -53,9 +54,9 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: MaterialApp(
-        theme: ThemeData(fontFamily: 'Lato'),
+        theme: ThemeData(fontFamily: 'AlbertSans'),
         debugShowCheckedModeBanner: false,
-        initialRoute: SplashScreenPage.routeName,
+        initialRoute: DiseaseList.routeName,
         routes: {
           SplashScreenPage.routeName: (context) => const SplashScreenPage(),
           OnboardingPage.routeName: (context) => const OnboardingPage(),
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
           HistoryPage.routeName: (context) => const HistoryPage(),
           KontakPage.routeName: (context) => const KontakPage(),
           TentangPage.routeName: (context) => const TentangPage(),
+          DiseaseList.routeName: (context) => const DiseaseList(),
         },
       ),
     );
