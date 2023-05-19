@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/api/api_service.dart';
 import '../data/models/predict_model.dart';
@@ -8,6 +6,7 @@ import '../utils/result_state.dart';
 
 class PredictProvider extends ChangeNotifier {
   ApiService apiService;
+  // DatabaseProvider databaseProvider;
 
   List<Map<String, dynamic>> history = [];
 
@@ -21,11 +20,6 @@ class PredictProvider extends ChangeNotifier {
   ResultState get resultState => _resultState;
   String get message => _message;
 
-  setResultState(ResultState state) {
-    _resultState = state;
-    notifyListeners();
-  }
-
   Future postPredict(String image) async {
     try {
       _resultState = ResultState.loading;
@@ -33,11 +27,9 @@ class PredictProvider extends ChangeNotifier {
 
       final predict = await apiService.predict(image);
 
-      print('PREDICT $predict');
-
       if (predict.status == '200') {
         _resultState = ResultState.hasData;
-        setHistory(predict);
+
         notifyListeners();
         return _predictModel = predict;
       } else {
@@ -54,47 +46,49 @@ class PredictProvider extends ChangeNotifier {
 
   static const String keyHistory = 'PREDICT';
 
-  setHistory(PredictModel data) async {
-    final pref = await SharedPreferences.getInstance();
+  // setHistory(PredictModel data) async {
+  //   final pref = await SharedPreferences.getInstance();
 
-    if (pref.containsKey(keyHistory)) {
-      final oldPredict = pref.getString(keyHistory);
-      List oldPredictList = json.decode(oldPredict!);
-      oldPredictList.add({
-        'nama': data.diagnosis,
-        'akurasi': data.probability,
-        'foto': data.image,
-      });
-      pref.setString(keyHistory, json.encode(oldPredictList));
-    } else {
-      history.add({
-        'nama': data.diagnosis,
-        'akurasi': data.probability,
-        'foto': data.image,
-      });
-      pref.setString(keyHistory, jsonEncode(history));
-    }
-  }
+  //   if (data.diagnosis != 'Bukan_Daun_Jagung') {
+  //     if (pref.containsKey(keyHistory)) {
+  //       final oldPredict = pref.getString(keyHistory);
+  //       List oldPredictList = json.decode(oldPredict!);
+  //       oldPredictList.add({
+  //         'nama': data.diagnosis,
+  //         'akurasi': data.probability,
+  //         'foto': data.image,
+  //       });
+  //       pref.setString(keyHistory, json.encode(oldPredictList));
+  //     } else {
+  //       history.add({
+  //         'nama': data.diagnosis,
+  //         'akurasi': data.probability,
+  //         'foto': data.image,
+  //       });
+  //       pref.setString(keyHistory, jsonEncode(history));
+  //     }
+  //   }
+  // }
 
-  Future getHistory() async {
-    final pref = await SharedPreferences.getInstance();
+  // Future getHistory() async {
+  //   final pref = await SharedPreferences.getInstance();
 
-    String dataHistory = pref.getString(keyHistory) ?? '';
+  //   String dataHistory = pref.getString(keyHistory) ?? '';
 
-    List<Map<String, dynamic>> myHistory = (dataHistory != '')
-        ? List<Map<String, dynamic>>.from(jsonDecode(dataHistory))
-        : [];
-    return myHistory;
-  }
+  //   List<Map<String, dynamic>> myHistory = (dataHistory != '')
+  //       ? List<Map<String, dynamic>>.from(jsonDecode(dataHistory))
+  //       : [];
+  //   return myHistory;
+  // }
 
-  removeHistory(int index) async {
-    final pref = await SharedPreferences.getInstance();
+  // removeHistory(int index) async {
+  //   final pref = await SharedPreferences.getInstance();
 
-    if (pref.containsKey(keyHistory)) {
-      final oldPredict = pref.getString(keyHistory);
-      List oldPredictList = json.decode(oldPredict!);
-      oldPredictList.removeAt(index);
-      pref.setString(keyHistory, json.encode(oldPredictList));
-    }
-  }
+  //   if (pref.containsKey(keyHistory)) {
+  //     final oldPredict = pref.getString(keyHistory);
+  //     List oldPredictList = json.decode(oldPredict!);
+  //     oldPredictList.removeAt(index);
+  //     pref.setString(keyHistory, json.encode(oldPredictList));
+  //   }
+  // }
 }

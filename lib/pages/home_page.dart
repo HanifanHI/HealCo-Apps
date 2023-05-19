@@ -1,20 +1,20 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:provider/provider.dart';
+
 import '../config/colors.dart';
 import '../config/font_weight.dart';
 import '../config/text_styles.dart';
-import '../pages/predict_page.dart';
-import '../pages/tentang_page.dart';
+import '../provider/db_provider.dart';
+import '../provider/detail_provider.dart';
+import '../provider/disease_provider.dart';
 import '../provider/page_provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-
-import '../widgets/items/item_banner.dart';
-import '../widgets/items/item_penyakit.dart';
-import 'kontak_page.dart';
-
-import 'package:share_plus/share_plus.dart';
-import 'package:launch_review/launch_review.dart';
+import '../utils/result_state.dart';
+import '../widgets/dialogs/detail_dialog.dart';
+import '../widgets/dialogs/hapus_dialog.dart';
+import '../pages/detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,33 +26,15 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  XFile? image;
-  final ImagePicker _picker = ImagePicker();
+  int _currentIndex = 0;
+  final _defaultCacheManager = DefaultCacheManager();
 
-  Future getImageWithCamera() async {
-    final gambar = await _picker.pickImage(source: ImageSource.camera);
-    setState(() {
-      image = gambar;
-    });
-    return image;
-  }
-
-  Future getImageWithGallery() async {
-    final gambar = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      image = gambar;
-    });
-    return image;
-  }
-
-  final CarouselController _controller = CarouselController();
-
+  // NOTE : APPBAR
   PreferredSizeWidget _appbar() {
     return PreferredSize(
       preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
       child: ClipRect(
         child: AppBar(
-          backgroundColor: cWhiteColor,
           flexibleSpace: Stack(
             children: [
               Container(
@@ -182,39 +164,16 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  // Widget _banner() {
-  //   return ConstrainedBox(
-  //     constraints: BoxConstraints(
-  //       maxHeight: MediaQuery.of(context).size.height * 0.3,
-  //       maxWidth: MediaQuery.of(context).size.width,
-  //       minHeight: MediaQuery.of(context).size.height * 0.3,
-  //       minWidth: MediaQuery.of(context).size.width,
-  //     ),
-  //     child: CarouselSlider(
-  //       carouselController: _controller,
-  //       items: const [
-  //         ItemBanner(
-  //           image: 'assets/images/img_petani.png',
-  //         ),
-  //         ItemBanner(
-  //           image: 'assets/images/img_petani.png',
-  //         ),
-  //         ItemBanner(
-  //           image: 'assets/images/img_petani.png',
-  //         ),
-  //       ],
-  //       options: CarouselOptions(
-  //         height: MediaQuery.of(context).size.width,
-  //         enlargeCenterPage: true,
-  //         enableInfiniteScroll: false,
-  //         initialPage: 1,
-  //       ),
-  //     ),
-  //   );
-  // }
+  @override
+  void dispose() {
+    _defaultCacheManager.emptyCache();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // final diseaseProvider = Provider.of<DiseaseProvider>(context, listen: false);
+
     return Scaffold(
       backgroundColor: cWhiteColor,
       appBar: _appbar(),
@@ -224,23 +183,297 @@ class HomePageState extends State<HomePage> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: MediaQuery.of(context).size.height * 0.21,
               color: cGrayLightColor,
-              child: Container(
-                margin: const EdgeInsets.all(20),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                decoration: const BoxDecoration(
-                  color: cGrayColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(5),
-                    bottomLeft: Radius.circular(5),
-                    bottomRight: Radius.circular(20),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 0,
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(5),
+                          bottomLeft: Radius.circular(5),
+                          bottomRight: Radius.circular(25),
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(5),
+                          bottomLeft: Radius.circular(5),
+                          bottomRight: Radius.circular(25),
+                        ),
+                        child: CarouselSlider(
+                          items: [
+                            Stack(
+                              children: [
+                                Image.asset(
+                                  'assets/images/img_banner1.png',
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.cover,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(25),
+                                      topRight: Radius.circular(5),
+                                      bottomLeft: Radius.circular(5),
+                                      bottomRight: Radius.circular(15),
+                                    ),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        cBlackColor.withOpacity(0.75),
+                                        Colors.transparent
+                                      ],
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Identifikasi',
+                                        style: whiteTextstyle.copyWith(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.024,
+                                          fontWeight: semiBold,
+                                          letterSpacing: 0.4,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Lakukan pemeriksaan dengan mudah',
+                                        style: whiteTextstyle.copyWith(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.018,
+                                          fontWeight: regular,
+                                          letterSpacing: 0.2,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Stack(
+                              children: [
+                                Image.asset(
+                                  'assets/images/img_banner2.png',
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.cover,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(25),
+                                      topRight: Radius.circular(5),
+                                      bottomLeft: Radius.circular(5),
+                                      bottomRight: Radius.circular(15),
+                                    ),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        cBlackColor.withOpacity(0.75),
+                                        Colors.transparent
+                                      ],
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Diagnosis',
+                                        style: whiteTextstyle.copyWith(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.024,
+                                          fontWeight: semiBold,
+                                          letterSpacing: 0.4,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Periksa diagnosis penyakit jagung',
+                                        style: whiteTextstyle.copyWith(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.018,
+                                          fontWeight: regular,
+                                          letterSpacing: 0.2,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Stack(
+                              children: [
+                                Image.asset(
+                                  'assets/images/img_banner3.png',
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.cover,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(25),
+                                      topRight: Radius.circular(5),
+                                      bottomLeft: Radius.circular(5),
+                                      bottomRight: Radius.circular(15),
+                                    ),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        cBlackColor.withOpacity(0.75),
+                                        Colors.transparent
+                                      ],
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Pengendalian',
+                                        style: whiteTextstyle.copyWith(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.024,
+                                          fontWeight: semiBold,
+                                          letterSpacing: 0.4,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Lihat saran pengendalian penyakit jagung',
+                                        style: whiteTextstyle.copyWith(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.018,
+                                          fontWeight: regular,
+                                          letterSpacing: 0.2,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                          // carouselController: _controller,
+                          options: CarouselOptions(
+                            initialPage: _currentIndex,
+                            viewportFraction: 1,
+                            autoPlay: false,
+                            onPageChanged: (index, _) {
+                              setState(() {
+                                _currentIndex = index;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          width: MediaQuery.of(context).size.height * 0.01,
+                          height: MediaQuery.of(context).size.height * 0.01,
+                          decoration: BoxDecoration(
+                            color: _currentIndex == 0
+                                ? cGreenColor
+                                : cGrayColor.withOpacity(0.5),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          width: MediaQuery.of(context).size.height * 0.01,
+                          height: MediaQuery.of(context).size.height * 0.01,
+                          decoration: BoxDecoration(
+                            color: _currentIndex == 1
+                                ? cGreenColor
+                                : cGrayColor.withOpacity(0.5),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          width: MediaQuery.of(context).size.height * 0.01,
+                          height: MediaQuery.of(context).size.height * 0.01,
+                          decoration: BoxDecoration(
+                            color: _currentIndex == 2
+                                ? cGreenColor
+                                : cGrayColor.withOpacity(0.5),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
+
+            // NOTE : TITLE PENYAKIT
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Column(
@@ -264,16 +497,24 @@ class HomePageState extends State<HomePage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'Lihat Semua',
-                            style: greenTextstyle.copyWith(
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.02,
-                              fontWeight: medium,
-                              letterSpacing: 0.2,
+                          Consumer<PageProvider>(
+                            builder: (context, pageProv, child) =>
+                                GestureDetector(
+                              onTap: () {
+                                pageProv.setPage(1);
+                              },
+                              child: Text(
+                                'Lihat Semua',
+                                style: greenTextstyle.copyWith(
+                                  fontSize:
+                                      MediaQuery.of(context).size.height * 0.02,
+                                  fontWeight: medium,
+                                  letterSpacing: 0.2,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
                           ),
                           Image.asset(
                             'assets/icons/arrow-right-green.png',
@@ -298,81 +539,201 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width,
-              child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(20),
-                itemCount: 4,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                ),
-                itemBuilder: (context, index) => Transform.translate(
-                  offset:
-                      index.isOdd ? const Offset(0, 10) : const Offset(0, -10),
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      left: 5,
-                      right: 5,
-                      top: 5,
-                      bottom: 15,
+
+            // NOTE : BODY PENYAKIT
+            Consumer<DiseaseProvider>(
+              builder: (context, diseaseProv, _) {
+                if (diseaseProv.resultState == ResultState.loading) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    color: cWhiteColor,
+                    child: const Center(
+                      child: CircularProgressIndicator(
+                        color: cGreenColor,
+                      ),
                     ),
-                    decoration: BoxDecoration(
-                      color: cGrayLightColor,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: cGrayColor.withOpacity(0.5),
-                          offset: const Offset(2, 2),
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              'assets/images/img_petani.png',
-                              fit: BoxFit.cover,
+                  );
+                } else if (diseaseProv.resultState == ResultState.hasData) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width,
+                    color: cWhiteColor,
+                    child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(20),
+                      itemCount: 4,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                      ),
+                      itemBuilder: (context, index) => Consumer<DetailProvider>(
+                        builder: (context, detailProv, _) => GestureDetector(
+                          onTap: () {
+                            detailProv
+                                .getDetail(
+                                    diseaseProv.diseaseModel.data[index].nama)
+                                .then((_) {
+                              if (detailProv.resultState ==
+                                  ResultState.hasData) {
+                                Navigator.pushNamed(
+                                  context,
+                                  DetailPage.routeName,
+                                );
+                              } else {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return DetailDialog(
+                                        subTitle: detailProv.message);
+                                  },
+                                );
+                              }
+                            });
+                          },
+                          child: Transform.translate(
+                            offset: index.isOdd
+                                ? const Offset(0, 10)
+                                : const Offset(0, -10),
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                left: 8,
+                                right: 8,
+                                top: 8,
+                                bottom: 15,
+                              ),
+                              decoration: BoxDecoration(
+                                color: cGrayLightColor,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: cGrayColor.withOpacity(0.5),
+                                    offset: const Offset(2, 2),
+                                    blurRadius: 4,
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        '${diseaseProv.apiService.baseUrl}/uploads/disease/${diseaseProv.diseaseModel.data[index].gambar[0]}',
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    diseaseProv.diseaseModel.data[index].nama
+                                        .replaceAll('_', ' '),
+                                    style: blackTextstyle.copyWith(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.022,
+                                      fontWeight: medium,
+                                      letterSpacing: 0,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    diseaseProv.diseaseModel.data[index].jenis,
+                                    style: grayTextstyle.copyWith(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.018,
+                                      fontWeight: regular,
+                                      letterSpacing: 0,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 5),
-                        Text(
-                          'Hawar Daun',
-                          style: blackTextstyle.copyWith(
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.022,
-                            fontWeight: medium,
-                            letterSpacing: 0,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Jamur',
-                          style: grayTextstyle.copyWith(
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.018,
-                            fontWeight: regular,
-                            letterSpacing: 0,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        )
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
+                  );
+                } else {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    color: cGrayLightColor,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            diseaseProv.message,
+                            style: redTextstyle.copyWith(
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.022,
+                              fontWeight: regular,
+                              letterSpacing: 0.2,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: () async {
+                              await diseaseProv.getDisease();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                color: cGrayColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/ic_refresh.png',
+                                    height: MediaQuery.of(context).size.height *
+                                        0.03,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    'Refresh',
+                                    style: whiteTextstyle.copyWith(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.02,
+                                      fontWeight: regular,
+                                      letterSpacing: 0,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
+
+            // NOTE : TITLE RIWAYAT
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Column(
@@ -396,16 +757,23 @@ class HomePageState extends State<HomePage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'Lihat Semua',
-                            style: greenTextstyle.copyWith(
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.02,
-                              fontWeight: medium,
-                              letterSpacing: 0.2,
+                          Consumer<PageProvider>(
+                            builder: (context, pageProv, _) => GestureDetector(
+                              onTap: () {
+                                pageProv.setPage(3);
+                              },
+                              child: Text(
+                                'Lihat Semua',
+                                style: greenTextstyle.copyWith(
+                                  fontSize:
+                                      MediaQuery.of(context).size.height * 0.02,
+                                  fontWeight: medium,
+                                  letterSpacing: 0.2,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
                           ),
                           Image.asset(
                             'assets/icons/arrow-right-green.png',
@@ -431,339 +799,195 @@ class HomePageState extends State<HomePage> {
               ),
             ),
 
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 80,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: cGrayLightColor,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: cGrayColor.withOpacity(0.5),
-                          offset: const Offset(2, 2),
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            'assets/images/img_hawar_daun.png',
-                            fit: BoxFit.cover,
-                            width: 100,
-                            height: MediaQuery.of(context).size.height,
+            // NOTE : BODY HISTORY
+            Consumer<DatabaseProvider>(
+              builder: (context, dbProvider, _) {
+                final histories = dbProvider.histories;
+                return histories.isEmpty
+                    ? Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.11,
+                        color: cGrayLightColor,
+                        child: Center(
+                          child: Text(
+                            'Tidak ada riwayat deteksi',
+                            style: grayTextstyle.copyWith(
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.022,
+                              fontWeight: regular,
+                              letterSpacing: 0.2,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Hawar Daun',
-                                style: blackTextstyle.copyWith(
-                                  fontSize: MediaQuery.of(context).size.height *
-                                      0.022,
-                                  fontWeight: medium,
-                                  letterSpacing: 0,
+                      )
+                    : SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: histories.length == 1
+                            ? MediaQuery.of(context).size.height * 0.11 + 20
+                            : histories.length == 2
+                                ? MediaQuery.of(context).size.height * 0.22 + 40
+                                : MediaQuery.of(context).size.height * 0.33 +
+                                    60,
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount:
+                              histories.length > 3 ? 3 : histories.length,
+                          itemBuilder: (context, index) {
+                            int reverseIndex = (histories.length - 1) - index;
+                            return Consumer<DetailProvider>(
+                              builder: (context, detailProv, _) =>
+                                  GestureDetector(
+                                onTap: () {
+                                  detailProv
+                                      .getDetail(histories[reverseIndex].name)
+                                      .then((_) {
+                                    if (detailProv.resultState ==
+                                        ResultState.hasData) {
+                                      Navigator.pushNamed(
+                                        context,
+                                        DetailPage.routeName,
+                                      );
+                                    } else {
+                                      showDialog(
+                                        barrierDismissible: false,
+                                        context: context,
+                                        builder: (context) {
+                                          return DetailDialog(
+                                              subTitle: detailProv.message);
+                                        },
+                                      );
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.11,
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: cGrayLightColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: cGrayColor.withOpacity(0.5),
+                                        offset: const Offset(2, 2),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 100,
+                                        height:
+                                            MediaQuery.of(context).size.height,
+                                        decoration: BoxDecoration(
+                                          color: cGrayColor.withOpacity(0.3),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                '${detailProv.apiService.baseUrl}/uploads/predict/${histories[reverseIndex].image}',
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            fit: BoxFit.cover,
+                                            errorWidget: (context, url, error) {
+                                              return Center(
+                                                child: Image.asset(
+                                                  'assets/icons/ic_alert_circle.png',
+                                                  height: 24,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              histories[reverseIndex]
+                                                  .name
+                                                  .replaceAll('_', ' '),
+                                              style: blackTextstyle.copyWith(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.022,
+                                                fontWeight: medium,
+                                                letterSpacing: 0,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              '${histories[reverseIndex].accuracy} %',
+                                              style: grayTextstyle.copyWith(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.018,
+                                                fontWeight: regular,
+                                                letterSpacing: 0,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(7),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                              barrierDismissible: false,
+                                              context: context,
+                                              builder: (context) {
+                                                return HapusDialog(
+                                                    id: dbProvider
+                                                        .histories[reverseIndex]
+                                                        .id!);
+                                              },
+                                            );
+                                          },
+                                          child: Image.asset(
+                                            'assets/icons/ic_trash.png',
+                                            width: 22,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '90.00 %',
-                                style: grayTextstyle.copyWith(
-                                  fontSize: MediaQuery.of(context).size.height *
-                                      0.018,
-                                  fontWeight: regular,
-                                  letterSpacing: 0,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
-                        Image.asset(
-                          'assets/icons/ic_trash.png',
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 80,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: cGrayLightColor,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: cGrayColor.withOpacity(0.5),
-                          offset: const Offset(2, 2),
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            'assets/images/img_hawar_daun.png',
-                            fit: BoxFit.cover,
-                            width: 100,
-                            height: MediaQuery.of(context).size.height,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Hawar Daun',
-                                style: blackTextstyle.copyWith(
-                                  fontSize: MediaQuery.of(context).size.height *
-                                      0.022,
-                                  fontWeight: medium,
-                                  letterSpacing: 0,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '90.00 %',
-                                style: grayTextstyle.copyWith(
-                                  fontSize: MediaQuery.of(context).size.height *
-                                      0.018,
-                                  fontWeight: regular,
-                                  letterSpacing: 0,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Image.asset(
-                          'assets/icons/ic_trash.png',
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
+                      );
+              },
+            ),
 
-            // Container(
-            //   height: MediaQuery.of(context).size.height * 0.25,
-            //   width: MediaQuery.of(context).size.width,
-            //   alignment: Alignment.center,
-            //   margin: const EdgeInsets.symmetric(horizontal: 20),
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(10),
-            //     color: cWhiteColor,
-            //     border: Border.all(
-            //       color: cGrayColor,
-            //       width: 1,
-            //     ),
-            //   ),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //     children: [
-            //       ConstrainedBox(
-            //         constraints: BoxConstraints(
-            //           maxHeight: MediaQuery.of(context).size.height * 0.25,
-            //           minHeight: MediaQuery.of(context).size.height * 0.25,
-            //           maxWidth: MediaQuery.of(context).size.width * 0.3,
-            //           minWidth: MediaQuery.of(context).size.width * 0.3,
-            //         ),
-            //         child: Column(
-            //           crossAxisAlignment: CrossAxisAlignment.center,
-            //           mainAxisAlignment: MainAxisAlignment.center,
-            //           children: [
-            //             GestureDetector(
-            //               onTap: () {
-            //                 getImageWithCamera().then(
-            //                   (value) {
-            //                     if (value == null) {
-            //                       Provider.of<PageProvider>(context,
-            //                               listen: false)
-            //                           .setPage(0);
-            //                     } else {
-            //                       Navigator.pushNamed(
-            //                         context,
-            //                         StartDetectPage.routeName,
-            //                         arguments: value,
-            //                       );
-            //                     }
-            //                   },
-            //                 );
-            //               },
-            //               child: Container(
-            //                 width: MediaQuery.of(context).size.height * 0.12,
-            //                 height: MediaQuery.of(context).size.height * 0.12,
-            //                 decoration: BoxDecoration(
-            //                   color: cOrangeColor,
-            //                   borderRadius: BorderRadius.circular(10),
-            //                 ),
-            //                 child: Image.asset(
-            //                   'assets/icons/ic_camera.png',
-            //                 ),
-            //               ),
-            //             ),
-            //             const SizedBox(height: 7),
-            //             Text(
-            //               'Kamera',
-            //               style: blackTextstyle.copyWith(
-            //                 fontSize:
-            //                     MediaQuery.of(context).size.height * 0.025,
-            //                 fontWeight: bold,
-            //                 letterSpacing: 1,
-            //               ),
-            //               overflow: TextOverflow.ellipsis,
-            //               maxLines: 1,
-            //             )
-            //           ],
-            //         ),
-            //       ),
-            //       ConstrainedBox(
-            //         constraints: BoxConstraints(
-            //           maxHeight: MediaQuery.of(context).size.height * 0.25,
-            //           minHeight: MediaQuery.of(context).size.height * 0.25,
-            //           maxWidth: MediaQuery.of(context).size.width * 0.3,
-            //           minWidth: MediaQuery.of(context).size.width * 0.3,
-            //         ),
-            //         child: Column(
-            //           crossAxisAlignment: CrossAxisAlignment.center,
-            //           mainAxisAlignment: MainAxisAlignment.center,
-            //           children: [
-            //             GestureDetector(
-            //               onTap: () {
-            //                 getImageWithGallery().then(
-            //                   (value) {
-            //                     if (value == null) {
-            //                       Provider.of<PageProvider>(context,
-            //                               listen: false)
-            //                           .setPage(0);
-            //                     } else {
-            //                       Navigator.pushNamed(
-            //                         context,
-            //                         StartDetectPage.routeName,
-            //                         arguments: value,
-            //                       );
-            //                     }
-            //                   },
-            //                 );
-            //               },
-            //               child: Container(
-            //                 width: MediaQuery.of(context).size.height * 0.12,
-            //                 height: MediaQuery.of(context).size.height * 0.12,
-            //                 decoration: BoxDecoration(
-            //                   color: cOrangeColor,
-            //                   borderRadius: BorderRadius.circular(10),
-            //                 ),
-            //                 child: Image.asset(
-            //                   'assets/icons/ic_gallery.png',
-            //                 ),
-            //               ),
-            //             ),
-            //             const SizedBox(height: 7),
-            //             Text(
-            //               'Galeri',
-            //               style: blackTextstyle.copyWith(
-            //                 fontSize:
-            //                     MediaQuery.of(context).size.height * 0.025,
-            //                 fontWeight: bold,
-            //                 letterSpacing: 1,
-            //               ),
-            //               overflow: TextOverflow.ellipsis,
-            //               maxLines: 1,
-            //             )
-            //           ],
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-
-            // const SizedBox(height: 15),
-            // ConstrainedBox(
-            //   constraints: BoxConstraints(
-            //     maxHeight: MediaQuery.of(context).size.height * 0.1,
-            //     maxWidth: MediaQuery.of(context).size.width,
-            //     minHeight: MediaQuery.of(context).size.height * 0.1,
-            //     minWidth: MediaQuery.of(context).size.width,
-            //   ),
-            //   child: Container(
-            //     // color: cRedColor,
-            //     alignment: Alignment.centerLeft,
-            //     padding: const EdgeInsets.symmetric(horizontal: 20),
-            //     child: Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         Text(
-            //           'Penyakit',
-            //           style: blackTextstyle.copyWith(
-            //             fontSize: MediaQuery.of(context).size.height * 0.03,
-            //             fontWeight: bold,
-            //             letterSpacing: 1,
-            //           ),
-            //           overflow: TextOverflow.ellipsis,
-            //           maxLines: 1,
-            //         ),
-            //         const SizedBox(height: 5),
-            //         Text(
-            //           'Penyakit yang umum dijumpai pada daun jagung',
-            //           style: grayTextstyle.copyWith(
-            //             fontSize: MediaQuery.of(context).size.height * 0.022,
-            //             fontWeight: regular,
-            //             letterSpacing: 0.8,
-            //           ),
-            //           overflow: TextOverflow.ellipsis,
-            //           maxLines: 1,
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            // const ItemPenyakit(
-            //   image: 'assets/images/img_hawar_daun.png',
-            //   title: 'Hawar Daun',
-            //   subTitle: 'Setosphaeria turcica',
-            // ),
-            // const ItemPenyakit(
-            //   image: 'assets/images/img_bercak_daun.png',
-            //   title: 'Bercak Daun',
-            //   subTitle: 'Bipolaris zeicola',
-            // ),
-            // const ItemPenyakit(
-            //   image: 'assets/images/img_karat_daun.png',
-            //   title: 'Karat Daun',
-            //   subTitle: 'Puccinia sorghi',
-            // ),
-            // const SizedBox(height: 70),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.12)
           ],
         ),
       ),

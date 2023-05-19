@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healco/config/colors.dart';
 import 'package:scanning_effect/scanner_animation.dart';
-import 'package:scanning_effect/scanner_border_painter.dart';
 
 class CustomScanning extends StatefulWidget {
   const CustomScanning({
@@ -9,7 +8,7 @@ class CustomScanning extends StatefulWidget {
     required this.child,
     this.scanningColor = cWhiteColor,
     this.borderLineColor = cWhiteColor,
-    this.scanningHeightOffset = 0.8,
+    this.scanningHeightOffset = 0.75,
     this.delay = const Duration(milliseconds: 700),
     this.duration = const Duration(milliseconds: 2800),
     this.scanningLinePadding =
@@ -62,11 +61,11 @@ class _CustomScanningState extends State<CustomScanning>
       fit: StackFit.expand,
       children: [
         widget.child,
-        CustomPaint(
-          painter: ScannerBorderPainter(
-            color: widget.borderLineColor,
-          ),
-        ),
+        // CustomPaint(
+        //   painter: ScannerBorderPainter(
+        //     color: widget.borderLineColor,
+        //   ),
+        // ),
         Padding(
           padding: widget.scanningLinePadding,
           child: ClipRect(
@@ -83,6 +82,7 @@ class _CustomScanningState extends State<CustomScanning>
 
   @override
   void dispose() {
+    // _animationController.stop();
     _animationController.dispose();
     super.dispose();
   }

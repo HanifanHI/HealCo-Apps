@@ -90,7 +90,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                     style: whiteTextstyle.copyWith(
                       fontSize: MediaQuery.of(context).size.height * 0.05,
                       fontWeight: bold,
-                      letterSpacing: 5,
+                      letterSpacing: 3,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

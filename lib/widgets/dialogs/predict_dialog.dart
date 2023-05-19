@@ -5,63 +5,53 @@ import '../../config/font_weight.dart';
 import '../../config/text_styles.dart';
 
 class PredictDialog extends StatelessWidget {
-  final String image;
-  final String title;
   final String subTitle;
 
   const PredictDialog({
     super.key,
-    required this.image,
-    required this.title,
     required this.subTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      elevation: 2,
       title: Center(
         child: Image.asset(
-          image,
-          width: MediaQuery.of(context).size.width * 0.18,
+          'assets/images/img_dizzy_face.png',
+          width: MediaQuery.of(context).size.height * 0.075,
         ),
       ),
       children: [
-        Center(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            title,
+            'Deteksi Gagal',
             style: redTextstyle.copyWith(
-              fontSize: MediaQuery.of(context).size.width * 0.05,
-              fontWeight: bold,
-              letterSpacing: 1,
+              fontSize: MediaQuery.of(context).size.height * 0.022,
+              fontWeight: semiBold,
+              letterSpacing: 0.4,
             ),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
+            textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(
-          height: 5,
-        ),
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Center(
-              child: Text(
-                subTitle,
-                style: grayTextstyle.copyWith(
-                  fontSize: MediaQuery.of(context).size.width * 0.04,
-                  fontWeight: medium,
-                  letterSpacing: 1,
-                ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            subTitle,
+            style: grayTextstyle.copyWith(
+              fontSize: MediaQuery.of(context).size.height * 0.018,
+              fontWeight: regular,
+              letterSpacing: 0.2,
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(
-          height: 15,
-        ),
+        const SizedBox(height: 20),
         GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -69,17 +59,17 @@ class PredictDialog extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.symmetric(horizontal: 20),
-            height: MediaQuery.of(context).size.height * 0.06,
+            height: MediaQuery.of(context).size.height * 0.05,
             decoration: BoxDecoration(
-              color: cOrangeColor,
+              color: cGreenColor,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
               'Kembali',
               style: whiteTextstyle.copyWith(
-                fontSize: MediaQuery.of(context).size.width * 0.04,
-                fontWeight: bold,
-                letterSpacing: 1,
+                fontSize: MediaQuery.of(context).size.height * 0.02,
+                fontWeight: medium,
+                letterSpacing: 0.4,
               ),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,

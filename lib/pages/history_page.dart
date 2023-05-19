@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-
-import 'package:healco/config/colors.dart';
-import 'package:healco/config/font_weight.dart';
-import 'package:healco/config/text_styles.dart';
-import 'package:healco/provider/predict_provider.dart';
-import 'package:healco/widgets/dialogs/hapus_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+import '../config/colors.dart';
+import '../config/font_weight.dart';
+import '../config/text_styles.dart';
+import '../data/api/api_service.dart';
+import '../provider/db_provider.dart';
+import '../utils/result_state.dart';
+import '../widgets/dialogs/detail_dialog.dart';
+import '../widgets/dialogs/hapus_dialog.dart';
 
 import '../provider/detail_provider.dart';
 import 'detail_page.dart';
@@ -20,172 +25,199 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+  final _defaultCacheManager = DefaultCacheManager();
+  final _apiService = ApiService();
+
+  PreferredSizeWidget _appBar() {
+    return AppBar(
+      elevation: 1,
+      backgroundColor: cWhiteColor,
+      title: Text(
+        'Riwayat',
+        style: blackTextstyle.copyWith(
+          fontSize: MediaQuery.of(context).size.height * 0.026,
+          fontWeight: medium,
+          letterSpacing: 0.4,
+        ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _defaultCacheManager.emptyCache();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.09 +
-                MediaQuery.of(context).padding.top,
-            minHeight: MediaQuery.of(context).size.height * 0.09 +
-                MediaQuery.of(context).padding.top,
-            maxWidth: MediaQuery.of(context).size.width,
-            minWidth: MediaQuery.of(context).size.width,
-          ),
-          child: AppBar(
-            backgroundColor: cWhiteColor,
-            elevation: 1,
-            title: Text(
-              'Riwayat',
-              style: blackTextstyle.copyWith(
-                fontSize: MediaQuery.of(context).size.height * 0.03,
-                fontWeight: bold,
-                letterSpacing: 1,
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ),
-        ),
-      ),
-      body: FutureBuilder(
-        future:
-            Provider.of<PredictProvider>(context, listen: false).getHistory(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: cOrangeColor,
-              ),
-            );
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            final data = snapshot.data as List;
-            return ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                    top: 20,
-                    bottom: index == data.length - 1 ? 20 + 60 : 0,
-                  ),
-                  width: double.infinity,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Consumer<DetailProvider>(
-                          builder: (context, detailProv, _) => GestureDetector(
-                            onTap: () {
-                              detailProv
-                                  .getDetail(data[index]['nama'])
-                                  .then((value) {
-                                Navigator.pushNamed(
-                                  context,
-                                  DetailPage.routeName,
-                                  arguments: detailProv.detailModel,
-                                );
-                              });
-                            },
-                            child: Row(
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.25,
-                                  height: MediaQuery.of(context).size.height *
-                                      0.115,
-                                  decoration: BoxDecoration(
-                                    color: cGrayColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  // child: ClipRRect(
-                                  //   borderRadius: BorderRadius.circular(10),
-                                  //   child: Image.network(
-                                  //     'https://healco.hanifanhi.com/uploads/predict/${data[index]['foto']}',
-                                  //     fit: BoxFit.cover,
-                                  //   ),
-                                  // ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        data[index]['nama']
-                                            .replaceAll('_', ' '),
-                                        style: blackTextstyle.copyWith(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.025,
-                                          fontWeight: medium,
-                                          letterSpacing: 1,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        '${data[index]['akurasi']} %',
-                                        style: grayTextstyle.copyWith(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.025,
-                                          fontWeight: medium,
-                                          letterSpacing: 1,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+      backgroundColor: cWhiteColor,
+      appBar: _appBar(),
+      body: Consumer<DatabaseProvider>(
+        builder: (context, dbProvider, _) {
+          final histories = dbProvider.histories;
+          return histories.isEmpty
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: cGrayLightColor,
+                  child: Center(
+                    child: Text(
+                      'Tidak ada riwayat deteksi',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
+                        fontWeight: regular,
+                        letterSpacing: 0.2,
                       ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: histories.length,
+                  itemBuilder: (context, index) {
+                    int reverseIndex = (histories.length - 1) - index;
+                    return Consumer<DetailProvider>(
+                      builder: (context, detailProv, _) => GestureDetector(
                         onTap: () {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) {
-                              return HapusDialog(id: index);
-                            },
-                          );
+                          detailProv
+                              .getDetail(histories[reverseIndex].name)
+                              .then((_) {
+                            if (detailProv.resultState == ResultState.hasData) {
+                              Navigator.pushNamed(
+                                context,
+                                DetailPage.routeName,
+                              );
+                            } else {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) {
+                                  return DetailDialog(
+                                      subTitle: detailProv.message);
+                                },
+                              );
+                            }
+                          });
                         },
                         child: Container(
-                          width: MediaQuery.of(context).size.height * 0.05,
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          decoration: const BoxDecoration(
-                            color: cRedColor,
-                            shape: BoxShape.circle,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.11,
+                          margin: EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                            top: 20,
+                            bottom: index == histories.length - 1
+                                ? 30 + MediaQuery.of(context).size.height * 0.09
+                                : 0,
                           ),
-                          child: Center(
-                            child: Image.asset(
-                              'assets/icons/ic_trash.png',
-                              width: MediaQuery.of(context).size.height * 0.03,
-                            ),
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: cGrayLightColor,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: cGrayColor.withOpacity(0.5),
+                                offset: const Offset(2, 2),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 100,
+                                height: MediaQuery.of(context).size.height,
+                                decoration: BoxDecoration(
+                                  color: cGrayColor.withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        '${_apiService.baseUrl}/uploads/predict/${histories[reverseIndex].image}',
+                                    width: MediaQuery.of(context).size.width,
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) {
+                                      return Center(
+                                        child: Image.asset(
+                                          'assets/icons/ic_alert_circle.png',
+                                          height: 24,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      histories[reverseIndex]
+                                          .name
+                                          .replaceAll('_', ' '),
+                                      style: blackTextstyle.copyWith(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.022,
+                                        fontWeight: medium,
+                                        letterSpacing: 0,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${histories[reverseIndex].accuracy} %',
+                                      style: grayTextstyle.copyWith(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.018,
+                                        fontWeight: regular,
+                                        letterSpacing: 0,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(7),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return HapusDialog(
+                                            id: dbProvider
+                                                .histories[reverseIndex].id!);
+                                      },
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    'assets/icons/ic_trash.png',
+                                    width: 22,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 );
-              },
-            );
-          } else {
-            return const SizedBox();
-          }
         },
       ),
     );

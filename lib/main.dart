@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:healco/pages/disease_list.dart';
 import 'package:provider/provider.dart';
 
 import '../data/api/api_service.dart';
+import '../provider/db_provider.dart';
+import '../provider/disease_provider.dart';
+import '../provider/search_provider.dart';
 import '../provider/page_provider.dart';
 import '../provider/detail_provider.dart';
 import '../provider/predict_provider.dart';
@@ -14,9 +16,9 @@ import '../pages/home_page.dart';
 import '../pages/main_page.dart';
 import '../pages/onboarding_page.dart';
 import '../pages/splashscreen_page.dart';
-import '../pages/tentang_page.dart';
-import '../pages/kontak_page.dart';
 import '../pages/predict_page.dart';
+import '../pages/disease_list.dart';
+import '../pages/petunjuk_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,11 +54,24 @@ class _MyAppState extends State<MyApp> {
             apiService: ApiService(),
           ),
         ),
+        ChangeNotifierProvider<DiseaseProvider>(
+          create: (context) => DiseaseProvider(
+            apiService: ApiService(),
+          ),
+        ),
+        ChangeNotifierProvider<SearchProvider>(
+          create: (context) => SearchProvider(
+            apiService: ApiService(),
+          ),
+        ),
+        ChangeNotifierProvider<DatabaseProvider>(
+          create: (context) => DatabaseProvider(),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(fontFamily: 'AlbertSans'),
         debugShowCheckedModeBanner: false,
-        initialRoute: DiseaseList.routeName,
+        initialRoute: SplashScreenPage.routeName,
         routes: {
           SplashScreenPage.routeName: (context) => const SplashScreenPage(),
           OnboardingPage.routeName: (context) => const OnboardingPage(),
@@ -65,9 +80,8 @@ class _MyAppState extends State<MyApp> {
           StartDetectPage.routeName: (context) => const StartDetectPage(),
           DetailPage.routeName: (context) => const DetailPage(),
           HistoryPage.routeName: (context) => const HistoryPage(),
-          KontakPage.routeName: (context) => const KontakPage(),
-          TentangPage.routeName: (context) => const TentangPage(),
           DiseaseList.routeName: (context) => const DiseaseList(),
+          PetunjukPage.routeName: (context) => const PetunjukPage(),
         },
       ),
     );

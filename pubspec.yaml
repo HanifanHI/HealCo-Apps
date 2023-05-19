@@ -29,21 +29,31 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cached_network_image: ^3.2.3
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   dart_jsonwebtoken: ^2.6.2
   flutter:
     sdk: flutter
+  flutter_cache_manager: ^3.3.0
+  flutter_launcher_icons: ^0.13.1
   http: ^0.13.5
   image_picker: ^0.8.6
   intl: ^0.18.0
   launch_review: ^3.0.1
+  path: ^1.8.2
   provider: ^6.0.5
   readmore: ^2.2.0
+  scanning_effect: ^1.0.4
   share_plus: ^6.3.1
   shared_preferences: ^2.0.16
+  sqflite: ^2.2.8+2
   url_launcher: ^6.1.7
-  scanning_effect: ^1.0.4
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/ic_launcher.png"
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -82,12 +92,12 @@ flutter:
           weight: 400
         - asset: assets/fonts/Lato-Bold.ttf
           weight: 700
-    
+
     - family: Montserrat
       fonts:
         - asset: assets/fonts/Montserrat-Medium.ttf
           weight: 500
-    
+
     - family: AlbertSans
       fonts:
         - asset: assets/fonts/AlbertSans-ExtraBold.ttf
@@ -102,6 +112,5 @@ flutter:
           weight: 400
         - asset: assets/fonts/AlbertSans-Light.ttf
           weight: 300
-  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

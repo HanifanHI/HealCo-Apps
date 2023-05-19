@@ -5,7 +5,7 @@ import '../config/colors.dart';
 import '../config/font_weight.dart';
 import '../config/text_styles.dart';
 import '../widgets/onboarding_item.dart';
-import 'main_page.dart';
+import '../pages/main_page.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
