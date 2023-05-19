@@ -8,7 +8,7 @@ import '../models/detail_model.dart';
 import '../models/predict_model.dart';
 
 class ApiService {
-  static const String _baseUrl = 'https://64f4-182-2-45-74.ngrok.io';
+  static const String _baseUrl = 'https://947a-182-2-45-74.ngrok.io';
 
   String get baseUrl => _baseUrl;
 
