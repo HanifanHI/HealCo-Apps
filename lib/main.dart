@@ -14,7 +14,6 @@ import '../pages/detail_page.dart';
 import '../pages/history_page.dart';
 import '../pages/home_page.dart';
 import '../pages/main_page.dart';
-import '../pages/onboarding_page.dart';
 import '../pages/splashscreen_page.dart';
 import '../pages/predict_page.dart';
 import '../pages/disease_list.dart';
@@ -74,7 +73,6 @@ class _MyAppState extends State<MyApp> {
         initialRoute: SplashScreenPage.routeName,
         routes: {
           SplashScreenPage.routeName: (context) => const SplashScreenPage(),
-          OnboardingPage.routeName: (context) => const OnboardingPage(),
           MainPage.routeName: (context) => const MainPage(),
           HomePage.routeName: (context) => const HomePage(),
           StartDetectPage.routeName: (context) => const StartDetectPage(),

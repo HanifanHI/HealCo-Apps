@@ -13,7 +13,7 @@ import '../data/models/history_model.dart';
 import '../data/models/predict_model.dart';
 import '../pages/main_page.dart';
 import '../pages/detail_page.dart';
-import '../pages/scanning.dart';
+// import '../pages/scanning.dart';
 import '../provider/db_provider.dart';
 import '../provider/detail_provider.dart';
 import '../provider/page_provider.dart';
