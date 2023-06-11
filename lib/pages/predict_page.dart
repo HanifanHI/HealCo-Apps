@@ -116,9 +116,10 @@ class StartDetectPageState extends State<StartDetectPage> {
                                 color: cBlackColor.withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const CustomScanning(
-                                child: SizedBox(),
-                              ),
+                              child: const SizedBox(),
+                              // child: const CustomScanning(
+                              //   child: SizedBox(),
+                              // ),
                             )
                           // ? CustomScanning(
                           //     scanningLinePadding: EdgeInsets.symmetric(
