@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:provider/provider.dart';
 
 import '../config/colors.dart';
@@ -27,7 +25,6 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-  final _defaultCacheManager = DefaultCacheManager();
 
   // NOTE : APPBAR
   PreferredSizeWidget _appbar() {
@@ -162,12 +159,6 @@ class HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _defaultCacheManager.emptyCache();
-    super.dispose();
   }
 
   @override
@@ -897,21 +888,12 @@ class HomePageState extends State<HomePage> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                '${detailProv.apiService.baseUrl}/uploads/predict/${histories[reverseIndex].image}',
+                                          child: Image.network(
+                                            '${detailProv.apiService.baseUrl}/uploads/predict/${histories[reverseIndex].image}',
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,
                                             fit: BoxFit.cover,
-                                            errorWidget: (context, url, error) {
-                                              return Center(
-                                                child: Image.asset(
-                                                  'assets/icons/ic_alert_circle.png',
-                                                  height: 24,
-                                                ),
-                                              );
-                                            },
                                           ),
                                         ),
                                       ),

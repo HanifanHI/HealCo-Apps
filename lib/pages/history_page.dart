@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import '../config/colors.dart';
 import '../config/font_weight.dart';
@@ -25,7 +23,6 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  final _defaultCacheManager = DefaultCacheManager();
   final _apiService = ApiService();
 
   PreferredSizeWidget _appBar() {
@@ -43,12 +40,6 @@ class _HistoryPageState extends State<HistoryPage> {
         maxLines: 1,
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _defaultCacheManager.emptyCache();
-    super.dispose();
   }
 
   @override
@@ -139,19 +130,10 @@ class _HistoryPageState extends State<HistoryPage> {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        '${_apiService.baseUrl}/uploads/predict/${histories[reverseIndex].image}',
+                                  child: Image.network(
+                                    '${_apiService.baseUrl}/uploads/predict/${histories[reverseIndex].image}',
                                     width: MediaQuery.of(context).size.width,
                                     fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) {
-                                      return Center(
-                                        child: Image.asset(
-                                          'assets/icons/ic_alert_circle.png',
-                                          height: 24,
-                                        ),
-                                      );
-                                    },
                                   ),
                                 ),
                               ),

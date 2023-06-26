@@ -9,7 +9,6 @@ import '../provider/search_provider.dart';
 import '../provider/page_provider.dart';
 import '../provider/detail_provider.dart';
 import '../provider/predict_provider.dart';
-
 import '../pages/detail_page.dart';
 import '../pages/history_page.dart';
 import '../pages/home_page.dart';
@@ -21,11 +20,10 @@ import '../pages/petunjuk_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
-    (_) {
-      runApp(const MyApp());
-    },
-  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -41,27 +39,18 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<PageProvider>(
-          create: (context) => PageProvider(),
-        ),
+            create: (context) => PageProvider()),
         ChangeNotifierProvider<PredictProvider>(
-          create: (context) => PredictProvider(
-            apiService: ApiService(),
-          ),
+          create: (context) => PredictProvider(apiService: ApiService()),
         ),
         ChangeNotifierProvider<DetailProvider>(
-          create: (context) => DetailProvider(
-            apiService: ApiService(),
-          ),
+          create: (context) => DetailProvider(apiService: ApiService()),
         ),
         ChangeNotifierProvider<DiseaseProvider>(
-          create: (context) => DiseaseProvider(
-            apiService: ApiService(),
-          ),
+          create: (context) => DiseaseProvider(apiService: ApiService()),
         ),
         ChangeNotifierProvider<SearchProvider>(
-          create: (context) => SearchProvider(
-            apiService: ApiService(),
-          ),
+          create: (context) => SearchProvider(apiService: ApiService()),
         ),
         ChangeNotifierProvider<DatabaseProvider>(
           create: (context) => DatabaseProvider(),

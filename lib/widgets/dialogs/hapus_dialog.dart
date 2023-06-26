@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healco/provider/db_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../config/colors.dart';
 import '../../config/font_weight.dart';
 import '../../config/text_styles.dart';
@@ -9,10 +8,7 @@ import '../../config/text_styles.dart';
 class HapusDialog extends StatelessWidget {
   final int id;
 
-  const HapusDialog({
-    super.key,
-    required this.id,
-  });
+  const HapusDialog({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +67,7 @@ class HapusDialog extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: cWhiteColor,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: cRedColor,
-                        width: 2,
-                      ),
+                      border: Border.all(color: cRedColor, width: 2),
                     ),
                     child: Text(
                       'Ya',
@@ -106,10 +99,9 @@ class HapusDialog extends StatelessWidget {
                   child: Text(
                     'Tidak',
                     style: whiteTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: medium,
-                      letterSpacing: 0.4,
-                    ),
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: medium,
+                        letterSpacing: 0.4),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),

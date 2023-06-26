@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../config/colors.dart';
 import '../../config/font_weight.dart';
 import '../../config/text_styles.dart';
@@ -7,10 +6,7 @@ import '../../config/text_styles.dart';
 class PredictDialog extends StatelessWidget {
   final String subTitle;
 
-  const PredictDialog({
-    super.key,
-    required this.subTitle,
-  });
+  const PredictDialog({super.key, required this.subTitle});
 
   @override
   Widget build(BuildContext context) {

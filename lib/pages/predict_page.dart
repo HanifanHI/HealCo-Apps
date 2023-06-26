@@ -13,7 +13,6 @@ import '../data/models/history_model.dart';
 import '../data/models/predict_model.dart';
 import '../pages/main_page.dart';
 import '../pages/detail_page.dart';
-// import '../pages/scanning.dart';
 import '../provider/db_provider.dart';
 import '../provider/detail_provider.dart';
 import '../provider/page_provider.dart';
@@ -117,19 +116,7 @@ class StartDetectPageState extends State<StartDetectPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: const SizedBox(),
-                              // child: const CustomScanning(
-                              //   child: SizedBox(),
-                              // ),
                             )
-                          // ? CustomScanning(
-                          //     scanningLinePadding: EdgeInsets.symmetric(
-                          //       horizontal:
-                          //           MediaQuery.of(context).size.width * 0.06,
-                          //       vertical:
-                          //           MediaQuery.of(context).size.height * 0.05,
-                          //     ),
-                          //     child: const SizedBox(),
-                          //   )
                           : Container(
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height,

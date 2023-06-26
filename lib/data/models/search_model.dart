@@ -3,11 +3,7 @@ class SearchModel {
   final String error;
   final String status;
 
-  SearchModel({
-    required this.data,
-    required this.error,
-    required this.status,
-  });
+  SearchModel({required this.data, required this.error, required this.status});
 
   factory SearchModel.fromJson(Map<String, dynamic> json) => SearchModel(
         data: List<Data>.from(json["data"].map((x) => Data.fromJson(x))),

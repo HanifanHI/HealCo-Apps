@@ -51,14 +51,6 @@ class DatabaseHelper {
     return results.map((e) => HistoryModel.fromMap(e)).toList();
   }
 
-  // NOTE : GET DATA BY IID
-  Future<HistoryModel> getHistoryById(int id) async {
-    final Database db = await database;
-    List<Map<String, dynamic>> results =
-        await db.query(_tablename, where: "id=?", whereArgs: [id]);
-    return results.map((e) => HistoryModel.fromMap(e)).first;
-  }
-
   // NOTE : DELETE
   Future<void> deleteHistory(int id) async {
     final Database db = await database;

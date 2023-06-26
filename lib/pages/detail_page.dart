@@ -75,8 +75,6 @@ class _DetailPageState extends State<DetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
-
-                  // NOTE : GAMBAR
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.3,
@@ -176,8 +174,6 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                   const SizedBox(height: 13),
-
-                  // NOTE : NAMA PENYAKIT
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
@@ -192,8 +188,6 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                   const SizedBox(height: 10),
-
-                  // NOTE : DESKRIPSI PENYEBAB
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: ReadMoreText(
@@ -222,8 +216,6 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // NOTE : GEJALA
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
@@ -266,8 +258,6 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // NOTE : PENGENDALIAN
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
@@ -338,10 +328,6 @@ class _DetailPageState extends State<DetailPage> {
                     GestureDetector(
                       onTap: () async {
                         await detailProv.getDetail(detailProv.detailModel.nama);
-
-                        // await Provider.of<DetailProvider>(context,
-                        //         listen: false)
-                        //     .getDetail(detailProv.detailModel.nama);
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

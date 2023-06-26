@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../data/api/api_service.dart';
 import '../data/models/search_model.dart';
 import '../utils/result_state.dart';
@@ -12,7 +11,6 @@ class SearchProvider extends ChangeNotifier {
   late SearchModel _searchModel;
   ResultState _resultState = ResultState.noData;
   String _message = '';
-
   SearchModel get searchModel => _searchModel;
   ResultState get resultState => _resultState;
   String get message => _message;

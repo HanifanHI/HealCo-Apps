@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../data/models/disease_model.dart';
 import '../data/api/api_service.dart';
 import '../utils/result_state.dart';

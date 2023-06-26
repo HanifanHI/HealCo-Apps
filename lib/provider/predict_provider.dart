@@ -44,7 +44,7 @@ class PredictProvider extends ChangeNotifier {
     }
   }
 
-  static const String keyHistory = 'PREDICT';
+  // static const String keyHistory = 'PREDICT';
 
   // setHistory(PredictModel data) async {
   //   final pref = await SharedPreferences.getInstance();
