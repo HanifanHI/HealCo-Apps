@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:healco/data/models/disease_model.dart';
-import 'package:healco/data/models/search_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/search_model.dart';
+import '../models/disease_model.dart';
 import '../models/detail_model.dart';
 import '../models/predict_model.dart';
 

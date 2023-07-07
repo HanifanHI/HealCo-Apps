@@ -70,92 +70,6 @@ class HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          // actions: [
-          //   PopupMenuButton(
-          //     icon: Icon(
-          //       Icons.more_vert_rounded,
-          //       color: cWhiteColor,
-          //       size: MediaQuery.of(context).size.height * 0.04,
-          //     ),
-          //     shape: RoundedRectangleBorder(
-          //       borderRadius: BorderRadius.circular(5),
-          //     ),
-          //     itemBuilder: (context) {
-          //       return [
-          //         PopupMenuItem(
-          //           value: 1,
-          //           padding: const EdgeInsets.symmetric(horizontal: 20),
-          //           child: Text(
-          //             'Bagikan',
-          //             style: blackTextstyle.copyWith(
-          //               fontSize: MediaQuery.of(context).size.width * 0.04,
-          //               letterSpacing: 0.5,
-          //             ),
-          //           ),
-          //         ),
-          //         PopupMenuItem(
-          //           value: 2,
-          //           padding: const EdgeInsets.symmetric(horizontal: 20),
-          //           child: Text(
-          //             'Kontak',
-          //             style: blackTextstyle.copyWith(
-          //               fontSize: MediaQuery.of(context).size.width * 0.04,
-          //               letterSpacing: 0.5,
-          //             ),
-          //           ),
-          //         ),
-          //         PopupMenuItem(
-          //           value: 3,
-          //           padding: const EdgeInsets.symmetric(horizontal: 20),
-          //           child: Text(
-          //             'Tentang',
-          //             style: blackTextstyle.copyWith(
-          //               fontSize: MediaQuery.of(context).size.width * 0.04,
-          //               letterSpacing: 0.5,
-          //             ),
-          //           ),
-          //         ),
-          //         PopupMenuItem(
-          //           value: 4,
-          //           padding: const EdgeInsets.symmetric(horizontal: 20),
-          //           child: Text(
-          //             'Beri Ulasan',
-          //             style: blackTextstyle.copyWith(
-          //               fontSize: MediaQuery.of(context).size.width * 0.04,
-          //               letterSpacing: 0.5,
-          //             ),
-          //           ),
-          //         ),
-          //       ];
-          //     },
-          //     onSelected: (value) {
-          //       switch (value) {
-          //         case 1:
-          //           Share.share(
-          //               'https://play.google.com/store/apps/details?id=com.instagram.android&hl=id&gl=US');
-          //           break;
-          //         case 2:
-          //           Navigator.pushNamed(
-          //             context,
-          //             KontakPage.routeName,
-          //           );
-          //           break;
-          //         case 3:
-          //           Navigator.pushNamed(
-          //             context,
-          //             TentangPage.routeName,
-          //           );
-          //           break;
-          //         case 4:
-          //           LaunchReview.launch(
-          //             androidAppId: 'com.instagram.android',
-          //             writeReview: false,
-          //           );
-          //           break;
-          //       }
-          //     },
-          //   ),
-          // ],
         ),
       ),
     );
@@ -1002,7 +916,6 @@ class HomePageState extends State<HomePage> {
                       );
               },
             ),
-
             SizedBox(height: MediaQuery.of(context).size.height * 0.12)
           ],
         ),

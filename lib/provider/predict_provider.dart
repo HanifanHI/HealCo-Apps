@@ -7,7 +7,6 @@ import '../utils/result_state.dart';
 
 class PredictProvider extends ChangeNotifier implements PredictInterface {
   ApiService apiService;
-  // DatabaseProvider databaseProvider;
 
   List<Map<String, dynamic>> history = [];
 
@@ -45,52 +44,4 @@ class PredictProvider extends ChangeNotifier implements PredictInterface {
       return _message = '$e';
     }
   }
-
-  // static const String keyHistory = 'PREDICT';
-
-  // setHistory(PredictModel data) async {
-  //   final pref = await SharedPreferences.getInstance();
-
-  //   if (data.diagnosis != 'Bukan_Daun_Jagung') {
-  //     if (pref.containsKey(keyHistory)) {
-  //       final oldPredict = pref.getString(keyHistory);
-  //       List oldPredictList = json.decode(oldPredict!);
-  //       oldPredictList.add({
-  //         'nama': data.diagnosis,
-  //         'akurasi': data.probability,
-  //         'foto': data.image,
-  //       });
-  //       pref.setString(keyHistory, json.encode(oldPredictList));
-  //     } else {
-  //       history.add({
-  //         'nama': data.diagnosis,
-  //         'akurasi': data.probability,
-  //         'foto': data.image,
-  //       });
-  //       pref.setString(keyHistory, jsonEncode(history));
-  //     }
-  //   }
-  // }
-
-  // Future getHistory() async {
-  //   final pref = await SharedPreferences.getInstance();
-
-  //   String dataHistory = pref.getString(keyHistory) ?? '';
-
-  //   List<Map<String, dynamic>> myHistory = (dataHistory != '')
-  //       ? List<Map<String, dynamic>>.from(jsonDecode(dataHistory))
-  //       : [];
-  //   return myHistory;
-  // }
-
-  // removeHistory(int index) async {
-  //   final pref = await SharedPreferences.getInstance();
-
-  //   if (pref.containsKey(keyHistory)) {
-  //     final oldPredict = pref.getString(keyHistory);
-  //     List oldPredictList = json.decode(oldPredict!);
-  //     oldPredictList.removeAt(index);
-  //     pref.setString(keyHistory, json.encode(oldPredictList));
-  //   }
-  // }
 }

@@ -6,6 +6,8 @@ class DetailModel {
   final String jenis;
   final String nama;
   final String pengendalian;
+  final String perkembangan;
+  final String siklus;
   final String status;
 
   DetailModel({
@@ -16,6 +18,8 @@ class DetailModel {
     required this.jenis,
     required this.nama,
     required this.pengendalian,
+    required this.perkembangan,
+    required this.siklus,
     required this.status,
   });
 
@@ -27,6 +31,8 @@ class DetailModel {
         jenis: json["jenis"],
         nama: json["nama"],
         pengendalian: json["pengendalian"],
+        perkembangan: json["perkembangan"],
+        siklus: json["siklus"],
         status: json["status"],
       );
 }

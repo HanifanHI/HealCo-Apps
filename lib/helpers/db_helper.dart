@@ -1,6 +1,6 @@
-import 'package:healco/data/models/history_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import '../data/models/history_model.dart';
 
 class DatabaseHelper {
   static DatabaseHelper? _databaseHelper;

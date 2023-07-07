@@ -274,6 +274,90 @@ class _DetailPageState extends State<DetailPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
+                      'Perkembangan',
+                      style: blackTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.024,
+                        fontWeight: medium,
+                        letterSpacing: 0.4,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ReadMoreText(
+                      detailProv.detailModel.perkembangan,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: regular,
+                        letterSpacing: 0.2,
+                      ),
+                      trimLines: 4,
+                      colorClickableText: cGreenColor,
+                      trimMode: TrimMode.Line,
+                      trimCollapsedText: 'Lebih Banyak',
+                      trimExpandedText: ' Lebih Sedikit',
+                      moreStyle: greenTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: medium,
+                        letterSpacing: 0.2,
+                      ),
+                      lessStyle: greenTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: medium,
+                        letterSpacing: 0.2,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      'Siklus Hidup',
+                      style: blackTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.024,
+                        fontWeight: medium,
+                        letterSpacing: 0.4,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ReadMoreText(
+                      detailProv.detailModel.siklus,
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: regular,
+                        letterSpacing: 0.2,
+                      ),
+                      trimLines: 4,
+                      colorClickableText: cGreenColor,
+                      trimMode: TrimMode.Line,
+                      trimCollapsedText: 'Lebih Banyak',
+                      trimExpandedText: ' Lebih Sedikit',
+                      moreStyle: greenTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: medium,
+                        letterSpacing: 0.2,
+                      ),
+                      lessStyle: greenTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: medium,
+                        letterSpacing: 0.2,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
                       'Pengendalian',
                       style: blackTextstyle.copyWith(
                         fontSize: MediaQuery.of(context).size.height * 0.024,

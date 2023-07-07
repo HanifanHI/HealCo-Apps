@@ -11,7 +11,7 @@ import '../widgets/dialogs/detail_dialog.dart';
 import '../widgets/dialogs/hapus_dialog.dart';
 
 import '../provider/detail_provider.dart';
-import 'detail_page.dart';
+import '../pages/detail_page.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});

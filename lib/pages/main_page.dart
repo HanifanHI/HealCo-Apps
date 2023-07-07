@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:healco/interface/image_interface.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../interface/image_interface.dart';
 import '../config/colors.dart';
 import '../config/font_weight.dart';
 import '../config/text_styles.dart';
