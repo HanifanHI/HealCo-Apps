@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../data/api/api_service.dart';
 import '../data/models/predict_model.dart';
+import '../interface/predict_interface.dart';
 import '../utils/result_state.dart';
 
-class PredictProvider extends ChangeNotifier {
+class PredictProvider extends ChangeNotifier implements PredictInterface {
   ApiService apiService;
   // DatabaseProvider databaseProvider;
 
@@ -20,6 +21,7 @@ class PredictProvider extends ChangeNotifier {
   ResultState get resultState => _resultState;
   String get message => _message;
 
+  @override
   Future postPredict(String image) async {
     try {
       _resultState = ResultState.loading;

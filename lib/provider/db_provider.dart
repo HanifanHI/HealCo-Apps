@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../data/models/history_model.dart';
 import '../helpers/db_helper.dart';
+import '../interface/db_interface.dart';
 
-class DatabaseProvider extends ChangeNotifier {
+class DatabaseProvider extends ChangeNotifier implements DbInterface {
   List<HistoryModel> _histories = [];
   late DatabaseHelper _databaseHelper;
 
@@ -12,23 +13,26 @@ class DatabaseProvider extends ChangeNotifier {
     // NOTE : Membuat objek kelas DatabaseHelper
     _databaseHelper = DatabaseHelper();
     // NOTE : Panggil method _getAllHistory()
-    _getAllHistory();
+    getAllHistory();
   }
 
-  void _getAllHistory() async {
+  @override
+  void getAllHistory() async {
     _histories = await _databaseHelper.getHistory();
     notifyListeners();
   }
 
   // NOTE : Menambah data kedalam database
+  @override
   Future<void> addHistory(HistoryModel historyModel) async {
     await _databaseHelper.insertHistory(historyModel);
-    _getAllHistory();
+    getAllHistory();
   }
 
   // NOTE : Hapus data
+  @override
   void deleteHistory(int id) async {
     await _databaseHelper.deleteHistory(id);
-    _getAllHistory();
+    getAllHistory();
   }
 }

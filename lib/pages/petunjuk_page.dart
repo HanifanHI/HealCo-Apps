@@ -33,202 +33,8 @@ class PetunjukPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // NOTE : DETEKSI PENYAKIT
-              const SizedBox(height: 20),
-              Text(
-                'Deteksi penyakit',
-                style: blackTextstyle.copyWith(
-                  fontSize: MediaQuery.of(context).size.height * 0.024,
-                  fontWeight: medium,
-                  letterSpacing: 0.4,
-                ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              const SizedBox(height: 15),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '1.  ',
-                    style: grayTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: regular,
-                      letterSpacing: 0,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Masuk ke halaman Beranda kemudian pilih menu Kamera atau Galeri untuk mengambil gambar.',
-                      style: grayTextstyle.copyWith(
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
-                        fontWeight: regular,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '2.  ',
-                    style: grayTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: regular,
-                      letterSpacing: 0,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Setelah mengambil gambar klik tombol Deteksi, tunggu sampai proses deteksi selesai.',
-                      style: grayTextstyle.copyWith(
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
-                        fontWeight: regular,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '3.  ',
-                    style: grayTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: regular,
-                      letterSpacing: 0,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Lihat hasil diagnosis penyakit tanaman jagung anda.',
-                      style: grayTextstyle.copyWith(
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
-                        fontWeight: regular,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '4.  ',
-                    style: grayTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: regular,
-                      letterSpacing: 0,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Klik tombol Lihat Detail untuk melihat informasi mengenai detail penyakit tersebut.',
-                      style: grayTextstyle.copyWith(
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
-                        fontWeight: regular,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              // NOTE : RIWAYAT DETEKSI
-              const SizedBox(height: 20),
-              Text(
-                'Lihat Riwayat Deteksi',
-                style: blackTextstyle.copyWith(
-                  fontSize: MediaQuery.of(context).size.height * 0.024,
-                  fontWeight: medium,
-                  letterSpacing: 0.4,
-                ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              const SizedBox(height: 15),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '1.  ',
-                    style: grayTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: regular,
-                      letterSpacing: 0,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Masuk ke halaman Riwayat.',
-                      style: grayTextstyle.copyWith(
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
-                        fontWeight: regular,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '2.  ',
-                    style: grayTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: regular,
-                      letterSpacing: 0,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Klik salah satu item untuk melihat detail informasi mengenai diagnosis penyakit tersebut.',
-                      style: grayTextstyle.copyWith(
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
-                        fontWeight: regular,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '3.  ',
-                    style: grayTextstyle.copyWith(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: regular,
-                      letterSpacing: 0,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Klik tombol hapus untuk menghapus item yang dipilih.',
-                      style: grayTextstyle.copyWith(
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
-                        fontWeight: regular,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
               // NOTE : TIPS DETEKSI
-              const SizedBox(height: 20),
+              const SizedBox(height: 25),
               Text(
                 'Tips Deteksi Penyakit',
                 style: blackTextstyle.copyWith(
@@ -244,7 +50,7 @@ class PetunjukPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '1.  ',
+                    '1.   ',
                     style: grayTextstyle.copyWith(
                       fontSize: MediaQuery.of(context).size.height * 0.02,
                       fontWeight: regular,
@@ -277,7 +83,7 @@ class PetunjukPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Pastikan gambar terlihat dengan jelas.',
+                      'Jarak pengambilan gambar yang baik adalah 10 - 30 cm.',
                       style: grayTextstyle.copyWith(
                         fontSize: MediaQuery.of(context).size.height * 0.02,
                         fontWeight: regular,
@@ -301,7 +107,252 @@ class PetunjukPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
+                      'Pastikan gambar terlihat dengan jelas.',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: regular,
+                        letterSpacing: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '4.  ',
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontWeight: regular,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
                       'Pencahayaan tidak terlalu gelap ataupun terlalu terang.',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: regular,
+                        letterSpacing: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Text(
+                'Contoh yang benar :',
+                style: grayTextstyle.copyWith(
+                  fontSize: MediaQuery.of(context).size.height * 0.02,
+                  fontWeight: regular,
+                  letterSpacing: 0,
+                ),
+              ),
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/img_benar1.jpg',
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/img_benar3.jpg',
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/img_benar4.jpg',
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                'Contoh yang salah :',
+                style: grayTextstyle.copyWith(
+                  fontSize: MediaQuery.of(context).size.height * 0.02,
+                  fontWeight: regular,
+                  letterSpacing: 0,
+                ),
+              ),
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/img_salah1.jpg',
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/img_salah3.jpg',
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/img_salah4.jpg',
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                  ],
+                ),
+              ),
+
+              // NOTE : DETEKSI PENYAKIT
+              const SizedBox(height: 20),
+              Text(
+                'Cara Deteksi penyakit',
+                style: blackTextstyle.copyWith(
+                  fontSize: MediaQuery.of(context).size.height * 0.024,
+                  fontWeight: medium,
+                  letterSpacing: 0.4,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+              const SizedBox(height: 15),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '1.   ',
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontWeight: regular,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Masuk ke halaman Beranda kemudian klik tombol Scan.',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: regular,
+                        letterSpacing: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '2.  ',
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontWeight: regular,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Selanjutnya pilih Kamera atau Galeri untuk pengambilan gambar.',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: regular,
+                        letterSpacing: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '3.  ',
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontWeight: regular,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Setelah mengambil gambar klik tombol Deteksi, tunggu sampai proses deteksi selesai.',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: regular,
+                        letterSpacing: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '4.  ',
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontWeight: regular,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Lihat hasil diagnosis penyakit tanaman jagung anda.',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: regular,
+                        letterSpacing: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '5.  ',
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontWeight: regular,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Klik tombol Lihat Detail untuk melihat informasi mengenai detail penyakit tersebut.',
                       style: grayTextstyle.copyWith(
                         fontSize: MediaQuery.of(context).size.height * 0.02,
                         fontWeight: regular,

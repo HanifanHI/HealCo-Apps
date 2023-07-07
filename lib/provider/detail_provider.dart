@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../data/api/api_service.dart';
 import '../data/models/detail_model.dart';
+import '../interface/detail_interface.dart';
 import '../utils/result_state.dart';
 
-class DetailProvider extends ChangeNotifier {
+class DetailProvider extends ChangeNotifier implements DetailInterface {
   ApiService apiService;
 
   DetailProvider({required this.apiService});
@@ -16,6 +17,7 @@ class DetailProvider extends ChangeNotifier {
   ResultState get resultState => _resultState;
   String get message => _message;
 
+  @override
   Future getDetail(String nama) async {
     try {
       _resultState = ResultState.loading;

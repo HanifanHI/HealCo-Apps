@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../data/models/disease_model.dart';
 import '../data/api/api_service.dart';
+import '../interface/disease_interface.dart';
 import '../utils/result_state.dart';
 
-class DiseaseProvider extends ChangeNotifier {
+class DiseaseProvider extends ChangeNotifier implements DiseaseInterface {
   ApiService apiService;
 
   DiseaseProvider({required this.apiService}) {
@@ -18,6 +19,7 @@ class DiseaseProvider extends ChangeNotifier {
   ResultState get resultState => _resultState;
   String get message => _message;
 
+  @override
   Future getDisease() async {
     try {
       _resultState = ResultState.loading;

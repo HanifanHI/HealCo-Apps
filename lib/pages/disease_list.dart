@@ -241,6 +241,26 @@ class _DiseaseListState extends State<DiseaseList> {
                                                     .size
                                                     .width,
                                                 fit: BoxFit.cover,
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
+                                                  return Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .height,
+                                                    color: cGrayLightColor2,
+                                                    child: Center(
+                                                      child: Image.asset(
+                                                        'assets/icons/ic_alert_circle.png',
+                                                        width: 22,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
                                               ),
                                             ),
                                           ),
@@ -472,6 +492,27 @@ class _DiseaseListState extends State<DiseaseList> {
                                                               .size
                                                               .width,
                                                       fit: BoxFit.cover,
+                                                      errorBuilder: (context,
+                                                          error, stackTrace) {
+                                                        return Container(
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          height: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .height,
+                                                          color:
+                                                              cGrayLightColor2,
+                                                          child: Center(
+                                                            child: Image.asset(
+                                                              'assets/icons/ic_alert_circle.png',
+                                                              width: 22,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
                                                     ),
                                                   ),
                                                 ),

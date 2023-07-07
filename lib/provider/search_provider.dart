@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../data/api/api_service.dart';
 import '../data/models/search_model.dart';
+import '../interface/search_interface.dart';
 import '../utils/result_state.dart';
 
-class SearchProvider extends ChangeNotifier {
+class SearchProvider extends ChangeNotifier implements SearchInterface {
   ApiService apiService;
 
   SearchProvider({required this.apiService});
@@ -15,6 +16,7 @@ class SearchProvider extends ChangeNotifier {
   ResultState get resultState => _resultState;
   String get message => _message;
 
+  @override
   Future searchDisease(String nama) async {
     try {
       _resultState = ResultState.loading;
