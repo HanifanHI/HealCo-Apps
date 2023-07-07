@@ -163,8 +163,6 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final diseaseProvider = Provider.of<DiseaseProvider>(context, listen: false);
-
     return Scaffold(
       backgroundColor: cWhiteColor,
       appBar: _appbar(),
@@ -239,7 +237,7 @@ class HomePageState extends State<HomePage> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
-                                        'Identifikasi',
+                                        'Deteksi',
                                         style: whiteTextstyle.copyWith(
                                           fontSize: MediaQuery.of(context)
                                                   .size
@@ -253,7 +251,7 @@ class HomePageState extends State<HomePage> {
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        'Lakukan pemeriksaan dengan mudah',
+                                        'Periksa penyakit daun jagung dengan mudah!',
                                         style: whiteTextstyle.copyWith(
                                           fontSize: MediaQuery.of(context)
                                                   .size
@@ -319,7 +317,7 @@ class HomePageState extends State<HomePage> {
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        'Periksa diagnosis penyakit jagung',
+                                        'Temukan penyakit daun jagung dengan akurat!',
                                         style: whiteTextstyle.copyWith(
                                           fontSize: MediaQuery.of(context)
                                                   .size
@@ -385,7 +383,7 @@ class HomePageState extends State<HomePage> {
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        'Lihat saran pengendalian penyakit jagung',
+                                        'Lihat saran pengendalian penyakit daun jagung',
                                         style: whiteTextstyle.copyWith(
                                           fontSize: MediaQuery.of(context)
                                                   .size
@@ -618,6 +616,24 @@ class HomePageState extends State<HomePage> {
                                         width:
                                             MediaQuery.of(context).size.width,
                                         fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            color: cGrayLightColor2,
+                                            child: Center(
+                                              child: Image.asset(
+                                                'assets/icons/ic_alert_circle.png',
+                                                width: 22,
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
@@ -894,6 +910,24 @@ class HomePageState extends State<HomePage> {
                                                 .size
                                                 .width,
                                             fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height,
+                                                color: cGrayLightColor2,
+                                                child: Center(
+                                                  child: Image.asset(
+                                                    'assets/icons/ic_alert_circle.png',
+                                                    width: 22,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ),
                                       ),

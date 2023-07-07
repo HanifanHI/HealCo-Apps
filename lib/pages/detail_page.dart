@@ -87,6 +87,19 @@ class _DetailPageState extends State<DetailPage> {
                             '${detailProv.apiService.baseUrl}/uploads/disease/$e',
                             width: MediaQuery.of(context).size.width,
                             fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                color: cGrayLightColor2,
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/icons/ic_alert_circle.png',
+                                    width: 24,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         );
                       }).toList(),

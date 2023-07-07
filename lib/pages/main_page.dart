@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healco/interface/image_interface.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -21,10 +22,11 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> implements ImageInterface {
   XFile? _image;
   final ImagePicker _picker = ImagePicker();
 
+  @override
   Future getImageWithCamera() async {
     final gambar = await _picker.pickImage(source: ImageSource.camera);
     setState(() {
@@ -33,6 +35,7 @@ class _MainPageState extends State<MainPage> {
     return _image;
   }
 
+  @override
   Future getImageWithGallery() async {
     final gambar = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
