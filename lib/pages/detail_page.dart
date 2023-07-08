@@ -210,7 +210,7 @@ class _DetailPageState extends State<DetailPage> {
                         fontWeight: regular,
                         letterSpacing: 0.2,
                       ),
-                      trimLines: 4,
+                      trimLines: 2,
                       colorClickableText: cGreenColor,
                       trimMode: TrimMode.Line,
                       trimCollapsedText: 'Lebih Banyak',

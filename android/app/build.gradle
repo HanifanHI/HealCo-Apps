@@ -25,6 +25,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+
+
 android {
     compileSdkVersion 33
     ndkVersion flutter.ndkVersion
@@ -59,6 +61,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
 
 }
 

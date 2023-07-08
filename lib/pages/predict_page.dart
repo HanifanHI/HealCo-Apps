@@ -112,10 +112,41 @@ class StartDetectPageState extends State<StartDetectPage> {
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height,
                               decoration: BoxDecoration(
-                                color: cBlackColor.withOpacity(0.5),
+                                color: cBlackColor.withOpacity(0.7),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const SizedBox(),
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Tunggu Sampai Selesai!',
+                                      style: whiteTextstyle.copyWith(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.02,
+                                        fontWeight: regular,
+                                        letterSpacing: 0.2,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      'Sedang Melakukan Deteksi...',
+                                      style: whiteTextstyle.copyWith(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.02,
+                                        fontWeight: regular,
+                                        letterSpacing: 0.2,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             )
                           : Container(
                               width: MediaQuery.of(context).size.width,
