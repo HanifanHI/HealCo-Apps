@@ -59,7 +59,7 @@ class PetunjukPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Ketika mengambil gambar menggunakan kamera, pastikan kamera fokus ke kerusakan daun jagung.',
+                      'Ketika mengambil gambar melalui kamera, pastikan kamera fokus ke kerusakan daun jagung.',
                       style: grayTextstyle.copyWith(
                         fontSize: MediaQuery.of(context).size.height * 0.02,
                         fontWeight: regular,
@@ -83,7 +83,7 @@ class PetunjukPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Jarak pengambilan gambar yang baik adalah 10 - 30 cm.',
+                      'Jarak pengambilan gambar yang baik adalah 20 cm - 40 cm.',
                       style: grayTextstyle.copyWith(
                         fontSize: MediaQuery.of(context).size.height * 0.02,
                         fontWeight: regular,
@@ -132,6 +132,30 @@ class PetunjukPage extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'Pencahayaan tidak terlalu gelap ataupun terlalu terang.',
+                      style: grayTextstyle.copyWith(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontWeight: regular,
+                        letterSpacing: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '5.  ',
+                    style: grayTextstyle.copyWith(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontWeight: regular,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Ketika mengambil gambar melalui galeri, format yang bisa digunakan adalah .jpg dan .png.',
                       style: grayTextstyle.copyWith(
                         fontSize: MediaQuery.of(context).size.height * 0.02,
                         fontWeight: regular,
@@ -256,7 +280,7 @@ class PetunjukPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Masuk ke halaman Beranda kemudian klik tombol Scan.',
+                      'Klik tombol Scan yang berada di tengah.',
                       style: grayTextstyle.copyWith(
                         fontSize: MediaQuery.of(context).size.height * 0.02,
                         fontWeight: regular,
@@ -328,7 +352,7 @@ class PetunjukPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Lihat hasil diagnosis penyakit tanaman jagung anda.',
+                      'Lihat hasil diagnosis penyakit tanaman jagung Anda.',
                       style: grayTextstyle.copyWith(
                         fontSize: MediaQuery.of(context).size.height * 0.02,
                         fontWeight: regular,
