@@ -1,4 +1,4 @@
-package com.example.healco
+package com.poltektegal.healco
 
 import io.flutter.embedding.android.FlutterActivity
 

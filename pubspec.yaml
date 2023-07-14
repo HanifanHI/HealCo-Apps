@@ -26,6 +26,7 @@ dependencies:
   shared_preferences: ^2.0.16
   sqflite: ^2.2.8+2
   url_launcher: ^6.1.7
+  
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -33,6 +34,7 @@ flutter_launcher_icons:
   image_path: "assets/icons/ic_launcher.png"
 
 dev_dependencies:
+  change_app_package_name: ^1.1.0
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
