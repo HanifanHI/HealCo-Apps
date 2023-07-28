@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.poltektegal.healco">
+    package="com.poltekharber.healco">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

@@ -2,6 +2,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../data/models/history_model.dart';
 
+// NOTE : Kelas ini digunakan untuk menangani operasi didalam database lokal
 class DatabaseHelper {
   static DatabaseHelper? _databaseHelper;
 
@@ -21,10 +22,13 @@ class DatabaseHelper {
   static const String _tablename = 'history';
 
   Future<Database> _initializeDb() async {
+    // Mengambil Directory Path
     var path = await getDatabasesPath();
+    // Membuka dan membuat database
     var db = openDatabase(
       join(path, 'healco.db'),
       onCreate: (db, version) async {
+        // Perintah SQL untuk membuat tabel
         await db.execute('''CREATE TABLE $_tablename (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT,
